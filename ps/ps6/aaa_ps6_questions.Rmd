@@ -1,0 +1,26 @@
+---
+title: |
+  | Problem Set 6
+author: "Ryan T. Moore"
+date: "(date)"
+output: 
+  pdf_document:
+    number_sections: true
+bibliography: ../../admin/main.bib    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Multiarm Bandits 
+
+a)  Demonstrate how treatment arms' posterior probabilities of being the best
+become more and less certain as the number of trials change in absolute terms
+and in relative terms. See the code provided in `06-bandits.R` for help.
+
+b) Replicate the three left panels of Figure 1 from @offcopgre21. See the code provided in `06-bandits.R` for help.
+
+c) Suppose that financial and IRB constraints are not binding. Describe a political or policy experiment that you would like to run via a multiarm bandit.
+
+# References

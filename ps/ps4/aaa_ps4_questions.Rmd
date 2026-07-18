@@ -1,0 +1,42 @@
+---
+title: "Problem Set 4"
+author: "Ryan T. Moore"
+date: "(date)"
+output: pdf_document
+bibliography: ../../admin/main.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Problem 1
+
+@egghai09 examine data on the wealth of UK MP candidates to estimate the effect of office-holding on wealth.  This is an observational design, rather than an experiment.  The raw data are available at \url{http://j.mp/32PHfFd}.
+
+a) Read the data into R and name it `mps`
+
+b) Create a new variable called `winner`.  Set it equal to `1` if `margin` is greater than 0; set it to `0` if `margin` is less than zero.
+
+c) Consider `winner` to be a randomly assigned treatment.  Estimate the causal effect of `winner` on `ln.net`, net worth at death of these candidates.
+
+d) Investigate whether the effect of `winner` varies by `party`.
+
+e) (Optional bonus question:) Replicate the "regression discontinuity design" of @egghai09. That is, estimate four regression models of `ln.net` on `margin` (one for each combination of `party` and `winner`); predict the value of `ln.net` at `margin`$=0$ from each model; calculate the difference in these predictions for each party and compare.
+
+# Problem 2
+
+This exercise will give you practice creating and estimating treatment effects in blocked designs.
+
+a) Load the `blockTools` and bring the `x100` data into the workspace.
+
+b) Create a new variable `ra_tr` in the `x100` data, and randomly allocate half the units to treatment (1), half to control (0).  (Set the random seed to make your allocation replicable.)
+
+c) Calculate the mean of `b1` for the treatment and control groups, and compare.
+
+d) Now block on `b1`, and assign treatment within blocks. 
+
+e) Calculate the mean of `b1` for the treatment and control groups, and compare to part c).
+
+# References
+

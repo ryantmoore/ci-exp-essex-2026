@@ -1,0 +1,49 @@
+---
+title: |
+  | Problem Set 5
+author: "Ryan T. Moore"
+date: "(date)"
+output: 
+  pdf_document:
+    number_sections: true
+bibliography: ../../admin/main.bib    
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Conjoint Experiments
+
+Suppose you work for "Go Vote" (GV), a non-governmental organization
+interested in increasing voter turnout. During the primary election season, the
+organization will conduct an email campaign to estimate the treatment effect of
+several message components on voter turnout; it will then use the results in the
+general election.
+
+The subject of the email will be one of "Vote Tuesday!", "GV wants you to vote
+Tuesday!", or "I personally want you to vote Tuesday!". The email will either
+include or exclude a photo of GV's Director.  The email will
+close with a digital version of the Director's signature including only her
+first name, her first and last names, or no signature. If the subject says
+"personally", then a version of her signature must be included.
+
+a) Using `makeDesign()` in the `cjoint` package, create a conjoint design object
+for an experiment that will estimate the average marginal component effects (AMCEs) 
+of the subject, photo, and signature. Show your code and print the contents of
+your design object. Use the example at `help(makeDesign)` for guidance.
+
+b) Consider the data from such a conjoint experiment, available on our GitHub page 
+as `data/05-gv_conjoint.RData`, which you can import using the `load()` function. 
+Estimate and interpret the average marginal component effects for each level of
+the three components. Provide a plot summarising the results.
+
+c) GV is also interested in the interaction between including the photograph and
+the signature. Estimate the average component interaction effect (ACIE) of the
+photograph and signature. Describe the evidence for or against the claim that
+the combination of photo and a signature together changes turnout _more_ than
+does the photo and the signature alone.
+
+d) The conjoint experiment described above differs somewhat from the typical
+designs that we read about. Describe how it does so.
