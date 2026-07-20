@@ -1,0 +1,1581 @@
+---
+title: | 
+    | Introduction and Potential Outcomes
+author: "Ryan T. Moore"
+date: 2026-07-20
+date-format: iso
+execute: 
+  echo: true
+format: 
+  beamer:
+    fonttheme: serif
+    include-in-header:
+      - text: | 
+          \usepackage{wasysym} 
+      - file: zzz_beamer_header.tex
+    section-titles: true
+    slide-level: 2
+    toc: true
+institute:
+  - American University
+bibliography: "../admin/main.bib"
+---
+  
+  
+```{r knitr options, echo=FALSE, warning=FALSE}
+# Encoding required for proper knitr rendering
+options(encoding = "native.enc")
+```
+
+```{r}
+#| label: enviro
+#| echo: false
+#| message: false
+#| warning: false
+
+library(grid)
+library(gridExtra)
+library(knitr)
+library(png)
+library(tidyverse)
+```
+
+# Welcome
+
+<!-- Include screenshot: -->
+<!-- ```{r fig.width=4.4, echo=FALSE} -->
+<!-- img <- readPNG("figs/viz-practice.png") -->
+<!-- grid.raster(img) -->
+<!-- ``` -->
+
+<!-- Include a pdf fig: -->
+
+<!-- \begin{center} -->
+<!-- \includegraphics[height=3.1in]{figs/viz-facet-MedNoneRace.pdf} -->
+<!-- \end{center} -->
+
+## About Me
+
+\Large
+
+- Associate Prof of Government  
+(American University)
+- Associate Director, Center for Data Science  
+(American University)
+- Senior Social Scientist  
+(The Lab @ DC)
+- (Fellow in Methodology)
+(US Office of Evaluation Sciences: "OES") \pause 
+- 2021-22: Visiting Fellow  
+(Institut Barcelona d'Estudis Internacionals) \pause 
+- Research agenda: political methodology, causal inference, experimental design, 
+experiments in public policy
+
+## About You!
+
+\Large
+
+>- Name?
+>- Role? 
+>- Interests?
+>- A hobby or non-academic interest?
+
+## The Course: Learning Objectives
+
+\large
+
+>- Identify causal effects using the potential outcomes framework
+>- Perform design-based inference for randomized experiments
+>- Create and analyze variety of randomized designs, including for blocked, 
+conjoint, list, and multiarm bandit experiments
+>- Relate experiments to regression quantities
+>- Estimate mediation effects and assess their sensitivity
+>- Identify appropriate designs for causal inference in observational data
+<!-- implement them, and interpret them; these include matching, instrumental  -->
+<!-- variables, regression discontinuities, and synthetic controls -->
+<!-- >- Assess the sensitivity of estimates to unmeasured confounders -->
+
+\pause 
+
+>- https://github.com/ryantmoore/ci-obs-essex-2026/
+>- (Walk through syllabus)
+
+
+# What is Causal Inference?
+
+## What is Causal Inference?
+
+\Large
+
+\begin{center}
+``What caused the terror attacks of 9/11?''
+\end{center}
+
+\begin{center}
+vs.
+\end{center}
+
+\begin{center}
+``What is the effect of foreign policy $X$ on domestic terror attacks?''
+\end{center}
+
+\pause 
+\vspace{5mm}
+
+\begin{center}
+``Causes of an effect''
+\end{center}
+
+\begin{center}
+vs.
+\end{center}
+
+\begin{center}
+``Effects of a cause''
+\end{center}
+
+## What is Causal Inference?
+
+\LARGE
+
+We will focus on "effects of a cause"\pause, where the "cause" is well-defined.
+
+
+## Example: Canvassing and Program Enrollment
+
+\pause 
+
+\Large
+
+"Canvassing": a systematic program where agents talk with residents (knock on doors) at the residents' home.
+
+\vspace{1mm}
+
+![Credit: The Campaign Workshop](figs/01-canvass.jpg){width=70%}
+
+## Example: Canvassing and Programme Enrollment
+
+\large
+
+Suppose we ask, ``Would a canvassing policy increase enrollment in a health insurance programme?\text{''} \pause 
+
+\vspace{2mm}
+
+\begin{center}
+\begin{tabular}{ccc}
+Citizen & Canvassed? & Enrolled? \\ \hline
+1 & Yes & Yes \\
+2 & Yes & Yes \\
+3 & No & No \\
+4 & No & No
+\end{tabular}
+\end{center} \pause 
+
+\vspace{2mm}
+
+>- What fraction enroll under canvassing vs. no canvassing?  
+>- $\frac{2}{2} - \frac{0}{2} = 1$
+>- (For each person canvassed, expect 1 more enrollment.)
+
+>- Did the policy "work" (cause more enrollment)?
+
+## Motivating Example: Canvassing and Enrollment
+
+\LARGE
+But, is it causal? \newline \pause 
+\vspace{1mm}
+
+What do we really want to know? \newline   \pause 
+\vspace{1mm}
+
+Would canvassing actually _change_ anyone's enrollment? \newline \pause 
+
+\vspace{1mm}
+
+What would have happened under _other_ conditions? 
+
+
+
+## Example: Canvassing and Enrollment
+
+\large 
+\begin{center}
+\begin{tabular}{ccccc}
+ & & Would Enroll if & Would Enroll if  & \\
+Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
+1 & Yes & \only<2->{Yes} & \only<6->{\alert{(Yes)}} &  Yes \\
+2 & Yes & \only<3->{Yes} & \only<6->{\alert{(No)}} &  Yes \\
+3 & No & \only<6->{\alert{(Yes)}} & \only<4->{No} &  No \\
+4 & No &\only<6->{\alert{(No)}} & \only<5->{No} &  No
+\end{tabular}
+\end{center}
+
+\vspace{5mm}
+
+\pause 
+
+\onslide<7->{What is the true causal effect of canvassing? \\}
+\onslide<8->{What fraction enroll under canvass vs. no canvass? \\} 
+\onslide<9->{What fraction change enrollment due to canvass?\\} 
+\onslide<10->{$\frac{3}{4} - \frac{1}{4} = \frac{1}{2}$}
+
+
+## Example: Canvassing and Enrollment
+
+Empirical data consistent with *different* _unobserved_ outcomes:
+
+\vspace{4mm}
+
+\large
+\begin{center}
+\begin{tabular}{ccccc}
+ & & Would Enroll if & Would Enroll if  & \\
+Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
+1 & Yes & Yes & \alert{(Yes)} &  Yes \\
+2 & Yes & Yes & \alert{(No)} &  Yes \\
+3 & No & \alert{(Yes)} & No &  No \\
+4 & No & \alert{(Yes)} & No &  No
+\end{tabular}
+\end{center}
+
+\pause 
+
+\vspace{5mm}
+
+What is the true causal effect of canvass? \newline  
+What fraction enroll under canvass vs. no canvass? \newline  \pause 
+$\frac{4}{4} - \frac{1}{4} = \frac{3}{4}$
+
+
+## Example: Canvassing and Enrollment
+
+\LARGE
+
+\begin{center}
+Well \ldots~ how do we know which?
+\end{center}
+
+\pause 
+
+\vspace{5mm}
+
+\begin{center}
+We can never know.
+\end{center}
+
+***
+
+\LARGE
+
+\begin{center}
+Can we know for one person?
+\end{center}
+
+\pause 
+
+\vspace{5mm}
+
+\begin{center}
+We can never know.
+\end{center}
+
+***
+
+\LARGE
+
+\begin{center}
+But I have some ideas.
+\end{center}
+
+\pause 
+
+\vspace{5mm}
+
+\begin{center}
+We could not canvass, then canvass later.
+\end{center}
+
+\pause  
+
+\vspace{5mm}
+
+\begin{center}
+We can never know.
+\end{center}
+
+
+***
+
+\LARGE
+
+\begin{center}
+We can never observe both ``Canvassed'' and ``Not Canvassed'' for a unit.
+\end{center}
+
+\pause 
+
+\vspace{5mm}
+
+\begin{center}
+We can never observe both \\ \it{potential outcomes}.
+\end{center}
+
+\pause  
+
+\vspace{5mm}
+
+\begin{center}
+We can never observe both the \\ factual and the counterfactual.
+\end{center}
+
+\pause 
+
+\vspace{5mm}
+
+\begin{center}
+We can never know.
+\end{center}
+
+## The Fundamental Problem of Causal Inference
+
+\LARGE
+
+\begin{center}
+We can never observe more than one {\it potential outcome} for a given unit.
+\end{center}
+
+
+***
+
+\LARGE
+
+\begin{center}
+So, how can we get a {\it causal} estimate?
+\end{center}
+
+\pause 
+
+\vspace{6mm}
+
+\begin{center}
+We infer missing potential outcomes.
+\end{center}
+
+# Correlation Is Not Causation
+
+## "Correlation Does Not Mean Causality"
+
+\Large
+
+Common refrain. What does it mean? \pause
+
+Sometimes there is **no** causal relationship **despite** correlation \pause
+
+\vspace{4mm}
+
+>- When the rooster crows, the sun soon rises
+>- The rooster did **not** cause the sunrise
+>- Had the farmer's cat eaten the rooster, the sun rises anyway
+
+\pause
+\vspace{3mm}
+
+Correlation is not enough for causality.
+
+\pause
+\vspace{3mm}
+
+\small
+(For more, please enjoy https://www.tylervigen.com/spurious-correlations and "spurious scholar")
+
+\normalsize
+
+## Causation Without Correlation
+
+\large
+
+Sometimes there **is** causal relationship and **no** correlation \pause
+
+\vspace{3mm}
+
+A sailor crosses a windy lake:
+
+>- Wind blows; sailor turns rudder to _exactly_ offset it
+>- Rudder: back and forth --- yet boat runs **straight**
+
+\pause
+
+\vspace{3mm}
+
+Naïve analyst: "No causal effect of rudder use on path". Rudder does "nothing"! \pause
+
+\vspace{2mm}
+
+But rudder _causes_ straight path
+
+## Causation Without Correlation
+
+\large
+
+What if instead she moved the rudder by a **coin flip**? \pause
+
+\vspace{3mm}
+
+>- Heads: turn left. Tails: turn right.
+>- Now the boat **zigzags** across the lake
+>- Now the onlooker _sees_ the rudder$\to$heading relationship!
+
+\pause
+
+\vspace{4mm}
+
+\begin{center}
+Why visible under randomisation but not otherwise?
+\end{center}
+
+\pause
+
+Because the sailor _endogenously_ moves the rudder in response to the
+(unobserved) wind. \pause The **randomness** helps reveal the (noisy) causal effect.
+
+
+## Optimisation Makes Behaviour Endogenous
+
+\Large
+
+Two more examples of optimising behaviour hiding a real effect:
+
+\vspace{3mm}
+
+>- **Central bank** sees a recession forming and buys bonds to head it off.
+If done well, see _no_ correlation between its actions and output ---
+even though the policy worked.
+
+\pause
+
+>- **Student** who expects to gain most from course is one who enrols. Comparing enrollees to non-enrollees confounds _effect_ of
+course with _who chose_ it.
+
+## How This Motivates the Course
+
+\Large
+
+>- Experiments _randomise_ --- choice (Tr status) doesn't depend on potential outcomes
+>- Observational data almost never does this
+>- This course: **designs** and analyses that recover causal effects from randomised experiments (and approximations)
+>- (For more observational designs treatment, see ESS 1I!)
+
+\pause
+
+\vspace{4mm}
+
+\begin{center}
+Next, when our naïve estimate works \end{center}
+
+# When Our Naïve Estimate Works 
+
+## Why didn't we recover truth?
+
+\large
+
+The problem with our naïve estimate of effect:
+
+>- "Canvass" group $\neq$ ``No Canvass\text{''} group
+>- The _potential outcomes_ help predict whether Canvass!
+
+\pause 
+
+\large
+\begin{center}
+\begin{tabular}{ccccc}
+ & & Would Enroll if & Would Enroll if  & \\
+Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
+1 & Yes & Yes & \alert{(Yes)} &  Yes \\
+2 & Yes & Yes & \alert{(No)} &  Yes \\
+3 & No & \alert{(Yes)} & No &  No \\
+4 & No &\alert{(No)} & No &  No
+\end{tabular}
+\end{center}
+
+\pause 
+
+\vspace{2mm}
+
+Knowing whether would enroll under canvass _predicts_ whether canvassed!
+
+\pause 
+$Pr(\text{Canvass} = \text{Yes} | \text{Would if Canvassed} = \text{Yes}) = \frac{2}{3}$  
+
+\pause 
+But 
+$Pr(\text{Canvass} = \text{Yes} | \text{Would if Canvassed} = \text{No}) = 0$
+
+## When comparing two groups **does** recover truth
+
+\large
+
+Here, potential outcomes do **not** help predict Canvass:
+
+\large
+\begin{center}
+\begin{tabular}{ccccc}
+ & & Would Enroll if & Would Enroll if  & \\
+Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
+1 & Yes & Yes & \alert{(Yes)} &  Yes \\
+2 & Yes & Yes & \alert{(No)} &  Yes \\
+3 & No & \alert{(Yes)} & Yes &  Yes \\
+4 & No &\alert{(Yes)} & No &  No
+\end{tabular}
+\end{center}
+
+\pause 
+
+Knowing whether enroll if canvass not predictive.
+
+\pause 
+
+>- What is the _true_ causal effect of canvass?  
+>- $\frac{4}{4} - \frac{2}{4} = \frac{2}{4} = \frac{1}{2}$
+>- What would we _observe_ as the effect of canvass?
+>- $\frac{2}{2} - \frac{1}{2} = \frac{1}{2}$
+
+\pause 
+
+Good! \smiley
+
+
+
+## When does comparing groups recover truth?
+
+
+<!-- Formally, $Y_1, Y_0 \indep T$, or $E(Y_1, Y_0) = E(Y_1, Y_0 | T)$) -->
+
+\Large
+
+Neither _potential outcome_ should help predict treatment/intervention.  \newline  \pause 
+
+\vspace{4mm}
+
+True underlying responses in "Canvass" group $=$ 
+True underlying responses in "No Canvass" group
+
+***
+
+\Large 
+
+(Note: _observed_ outcomes can predict treatment.)  \newline \pause
+
+That's the goal of an intervention!  \pause 
+
+- Aspirin $\implies$ headache!  
+- Canvass $\implies$ turnout!  
+- Insurance $\implies$ health spending! 
+- CBT $\implies$ remission! 
+
+\pause 
+
+But, full schedule of true underlying responses should **not** predict treatment.
+
+
+
+## When does comparing groups recover truth?
+
+\LARGE
+
+How to ensure potential outcomes won't predict treatment?\newline  \pause 
+
+\vspace{4mm}
+
+How to _assign_ treatment so it won't predict potential outcomes?
+
+
+## When does comparing groups recover truth?
+
+\large
+
+Possible _assignment mechanisms_:  
+
+\pause 
+
+\begin{itemize}
+\item Let Citizens decide whether to get Canvass \pause 
+\item[] (But, those who choose Canvass will Enroll anyway) \pause 
+\item[] (We will estimate {\it too large} effect)
+\item Let Party decide whom gets Canvass \pause 
+\item[] (But, Party will only Canvass those it will affect) \pause
+\item[] (We will estimate {\it too large} effect) \pause 
+\item What if you {\it randomly} select whom gets Canvass? \pause 
+\item[] (``Citizen got Canvass'' won't help guess pot. out.) \pause \item[] (We will estimate {\it correct} effect)
+\end{itemize}
+
+# The Potential Outcomes Model
+
+
+## What is Causal Inference?
+
+\large
+
+>- ``Effects of causes\text{''}
+
+\pause 
+\vspace{5mm}
+
+> The objective is to determine for some population of units \ldots the 'typical' causal effect of the [treatment vs. control conditions] on a dependent variable $Y$.
+\hspace{80mm} ---Rubin (1974)
+
+\pause 
+
+>- A "causal effect" is a comparative statement
+
+## What is Causal Inference?
+
+![Ramsey & Schafer, _The Statistical Sleuth_](figs/02-grid.pdf)
+
+
+## What is Causal Inference?
+
+\Large
+
+>- Central definition for causal inference:  
+\quad ``a _well-defined_ treatment\text{''}
+>- Units must be ``potentially exposable\text{''} to treatment
+>- ``No causation without manipulation\text{''}
+>- Timing of treatment: outcomes vs. covariates
+>- Exclusivity of treatment (to unit)
+>- Excludability (assignment effect only via Tr)
+>- One study, one causal effect (roughly)
+
+
+
+## The Potential Outcomes Model: Ideas
+
+\Large
+
+>- _Unit_: a particular case at a point in time
+>- _Treatment_: (putatively) causal variable of interest
+>- _Potential outcome_: outcome that would obtain if unit were to receive tr condition
+>- _Assignment mechanism_: means by which units come to be sorted into conditions
+
+## The Potential Outcomes Model: Ideas
+
+\Large
+
+Stable Unit Treatment Value Assumption (SUTVA)
+
+>- No versions of the treatment, varying in effectiveness
+>- No interference between units
+
+
+## The Potential Outcomes Model: Notation
+
+\Large
+
+>- Units: index $i \in \{1, \ldots, 2n\}$
+>- Binary treatment: $T_i \in \{0, 1\}$
+
+
+>- Pot outcome for $i$ under $T_i = 1$: $Y_{i1}$ or $Y_i(1)$
+>- Pot outcome for $i$ under $T_i = 0$: $Y_{i0}$ or $Y_i(0)$
+
+>- For vector of $Y_{i1} \quad \forall i$, write $Y_1$
+
+## The Potential Outcomes Model: Notation
+
+\large 
+
+Below, I'll use the $$\overline{\text{overline}}$$ to represent the average of a _process_ 
+-- the expectation. @gergre12 will use $E()$.
+
+\pause 
+
+E.g, the expected value of rolling a fair die is 3.5.  
+
+\pause 
+
+If I roll 4 times and get 2, 6, 1, 1, the sample average is 2.5.  
+
+\pause 
+
+But the expected value of the process is still 3.5.
+
+## The Potential Outcomes Model: Notation
+
+\large 
+
+Observed outcomes
+
+>- The observed outcome: $$Y_i = Y_i(1)\cdot T_i + Y_i(0)\cdot (1 - T_i)$$ \pause  
+(sometimes written $Y_i^{obs}$) \pause 
+>- If $T_i = 1$, $$Y_i = Y_i(1) \cdot 1 + Y_i(0)(1 - 1) = Y_i(1)$$
+>- If $T_i = 0$, $$Y_i = Y_i(1) \cdot 0 + Y_i(0)(1 - 0) = Y_i(0)$$
+
+\pause 
+
+\vspace{-1mm}
+
+The assignment mechanism _selects_ which potential outcome we observe.
+
+## The Potential Outcomes Model: Estimands
+
+Statistical language 
+
+>* _parameter_: unknown numeric value characterizing feature of
+  prob model (Greek; $\theta$, $\beta$) 
+>* _statistic_: quantity calculable from observed data.  A function. (Roman)
+>* _estimator_: statistic used to approximate/guess parameter ($\hat{\theta}$, $\hat{\beta}$)
+>* _estimand_: the parameter an estimator attempts to estimate 
+>* _estimate_: application of an estimator func to some obs data
+
+\pause 
+``The sample statistic $\bar{x}$ is an estimator of true mean
+param $\mu$".  
+
+\pause 
+
+$\mu$ is my estimand.  5.1 is my estimate.
+
+## The Potential Outcomes Model: Estimands
+
+\large
+
+For $i$, individual treatment effect
+
+$$\tau_i = Y_i(1) - Y_i(0)$$
+
+>- True treatment effect?
+>- Estimate?
+>- Observable?
+
+\pause 
+
+\vspace{3mm}
+
+\begin{center}
+We can never know.
+\end{center}
+
+<!-- ## Random variables and the Expectation -->
+
+<!-- \large -->
+
+<!-- _Random variable_ $X$ is a function mapping sample space to set of reals: $$X:\Omega \to \mathbb{R}$$  -->
+
+<!-- Random variables  -->
+
+<!-- >- summarize outcome of probabilistic/stochastic trial -->
+<!-- >- take numerical values.   -->
+
+<!-- \pause  -->
+
+<!-- E.g.,  -->
+
+<!-- >- Let $X =$ number of heads in 3 coin flips.  Is $X$ a random variable? -->
+<!-- >- Let $Y$ be outcome of two coin flips, $Y \in \{HH, TH, HT, TT\}$.  Is $Y$ a random variable? -->
+
+
+<!-- ## Expectation of a Random Variable -->
+
+<!-- The _expected value_ or _expectation_ of a random variable is mean of its outcomes, weighted by their probabilities.  For a discrete random variable, $$E(X) = \sum\limits_{i=1}^n x_ip(x_i)$$ For continuous random variable, $$E(X) = \int\limits_{-\infty}^{\infty} xp(x) dx$$ -->
+
+<!-- Expectation is **not** the sample mean from particular instantiation, a particular data set.  We use sample mean $\bar{x}$ to _estimate_ the expected value. -->
+
+<!-- ## Variance of a Random Variable -->
+
+<!-- The _variance_ of a random variable is mean of outcomes' squared deviations from expectation, weighted by their probabilities: -->
+
+<!-- \begin{eqnarray*} -->
+<!-- V(X) & = & E[(X - E(X))^2]\\	 -->
+<!-- & = & E(X^2) - (E(X))^2	 -->
+<!-- \end{eqnarray*} -->
+
+
+<!-- ## Properties of Expectation -->
+
+<!-- * $E(c) = c$  -->
+<!-- * $E(a+bX) = a+bE(X)$   -->
+<!-- * $E(X+Y) = EX + EY$ -->
+<!-- * If $X$ and $Y$ indep., then $E(XY) = E(X)E(Y)$ -->
+
+<!-- ## Properties of Variance -->
+
+<!-- * $Var(X) = E(X-EX)^2$  -->
+<!-- * $Var(X) = E(X^2)-(EX)^2$  -->
+<!-- * $Var(c) = 0$ -->
+<!-- * $Var(Y|X) = E(Y^2|X)-(E(Y|X))^2$  -->
+<!-- * If $X$ and $Y$ indep., then $Var(X+Y) = Var(X)+Var(Y)$  -->
+<!-- * If $X$ and $Y$ indep, then $Var(X-Y) = Var(X)+Var(Y)$  -->
+
+
+
+
+## The Potential Outcomes Model: Estimands
+
+>- Average treatment effect
+	\begin{displaymath}
+	ATE = \overline{Y_1 - Y_0} = \overline{Y_1} - \overline{Y_0}	
+	\end{displaymath}
+
+>- Average treatment effect for the treated
+	\begin{displaymath}
+	ATT = (\overline{Y_1} | T = 1) - (\overline{Y_0} | T = 1)
+	\end{displaymath} 
+
+
+## The Potential Outcomes Model: Estimands
+
+The average treatment effect (ATE):
+
+\begin{eqnarray*}
+\overline{\tau} = \overline{TE} = ATE &\equiv & \overline{Y_1 - Y_0} \\
+& = & \frac{1}{2n} \sum\limits_{i=1}^{2n} \left( Y_{i1} -
+  Y_{i0} \right) \\ \pause
+& = & \frac{1}{2n} \sum\limits_{i=1}^{2n} \left( Y_{i1} \right) - \frac{1}{2n} \sum\limits_{i=1}^{2n} \left( Y_{i0} \right) \\ \pause  
+& = & \overline{Y_1} - \overline{Y_0} 	%\\ \pause
+%& = & \frac{E(Y_1 | T_i =1 ) + E(Y_1 | T_i =0 )}{2} - \frac{E(Y_0 | T_i = 1) + E(Y_0 | T_i = 0)}{2}
+\end{eqnarray*} 
+
+\pause 
+
+>- True?
+>- Estimated?
+>- Observable?
+
+
+## The Potential Outcomes Model: Estimands
+
+\Large
+
+Statistical Independence \pause 
+
+Define 
+
+$$ Y \independent X$$ 
+as
+
+$$Pr(Y | X) = Pr(Y)$$  
+
+\pause 
+
+(Knowing $X$ doesn't change probability of $Y$)
+
+
+## The Potential Outcomes Model: Estimands
+
+Something we **can** calculate:
+
+If we know $(Y_1, Y_0)$ indep of $T$ \pause \newline
+(i.e., knowing true underlying response does **not** indicate $T$) \pause 
+
+Then,
+
+\pause 
+
+\begin{eqnarray*}
+\overline{Y_1} & = & (\overline{Y_1} | T = 1) \\ 
+\overline{Y_0} & = & (\overline{Y_0} | T = 0)	
+\end{eqnarray*}
+
+\pause 
+
+Then, can substitute 
+
+\begin{eqnarray*}
+	ATE & = & \overline{Y_1} - \overline{Y_0} \\
+	& = & (\overline{Y_1} | T = 1) - (\overline{Y_0} | T = 0)
+\end{eqnarray*}
+
+\pause 
+
+Observed diff in Tr and Co group means gives $\overline{TE}$!
+
+## Why Experiments?
+
+\large
+
+Random assignment of treatment promotes 
+
+$$(Y_1, Y_0) \independent T$$ \pause 
+
+When $(Y_1, Y_0)$ and $T$ independent, we can substitute things we know
+
+$$(\overline{Y_1} | T = 1) \text{ and } (\overline{Y_0} | T = 0)$$ \pause 
+
+for things we can _never_ know
+
+$$\overline{Y_1} \text{ and } \overline{Y_0}$$
+
+
+
+
+
+
+
+## Common Assumptions, Null Hyp's in Causal Inference
+
+\large
+
+\begin{itemize}
+\item Constant effect:
+
+$$\tau_i = Y_{i1}-Y_{i0} = \tau \quad \forall i$$
+\pause 
+
+\item Null hypothesis of no average effect:
+
+$$ATE = \overline{\tau} = 0$$
+\pause 
+
+\item Sharp null hypothesis of no effect: 
+
+$$\tau_i = 0$$
+\end{itemize}
+
+
+## Compliance with Treatment Assignment
+
+\note{Rubin's {\bf principal strata}}
+
+\large
+
+Sometimes, units don't follow assignment!
+
+\pause 
+\vspace{3mm}
+
+\begin{center}
+\begin{tabular}{ccc}
+Assigned Tr & Assigned Co & Type \\ \hline
+Tr & Co 	&  Complier \\  \pause 
+Tr & Tr & Always-taker \\ \pause 
+Co & Co & Never-taker \\ \pause 
+Co & Tr & Defier 
+\end{tabular}
+\end{center}
+
+
+
+## Compliance with Treatment Assignment
+
+\large
+
+Of course, we cannot observe $i$ assigned both Tr and Co.
+
+\pause 
+\vspace{3mm}
+
+\begin{center}
+\begin{tabular}{cccc}
+& & \multicolumn{2}{c}{Treatment Taken} \\
+& & Treatment & Control \\ \cline{3-4}
+Tr Assigned & Tr & Complier/Always & Never/Defier \\
+& Co & Always/Defier & Complier/Never \\
+\end{tabular}
+\end{center}
+
+
+## Common Estimates under Noncompliance
+
+Let $T_i$ be treatment _assigned_, $D_i$ be treatment _received_.
+
+\pause 
+
+>- Intent-to-treat effect (as-assigned)
+	\begin{eqnarray*}
+	ITT &=& (\overline{Y_1} | T = 1) - (\overline{Y_0} | T = 0) \\
+	&=& (\overline{Y_1} | T = 1, D(T=1)) - (\overline{Y_0} | T = 0, D(T=0)) 
+	\end{eqnarray*} 
+>- As-treated effect
+	\begin{eqnarray*}
+	ASTRE &=& (\overline{Y_1} | D = 1) - (\overline{Y_0} | D = 0)
+	\end{eqnarray*}
+
+
+# Computing 
+
+## Computing
+
+\Large
+
+>- R for simulations, estimation, graphics
+>- RStudio, an IDE for R
+>- GitHub to store materials, submit PS
+<!-- >- Calend.ly for scheduling a meeting  -->
+>- How should we chat? (email, Slack, \ldots)
+<!-- >- RMarkdown for literate programming (papers with data analysis embedded) -->
+<!-- >- Slack for course announcements, direct messages, etc. -->
+<!-- >- Blackboard for distributing, collecting PS's -->
+
+
+<!-- ## RMarkdown -->
+
+<!-- \large -->
+
+<!-- We will use RMarkdown, which uses \LaTeX\ for _literate programming_ -- integration of code and English that's output-ready  -->
+
+<!-- \pause  -->
+
+<!-- We will use new R package `tinytex` to convert RMarkdown to PDF files. -->
+
+
+<!-- ## What RMarkdown Looks Like -->
+
+<!-- ```{r fig.height=3.1, echo=FALSE} -->
+<!-- img <- readPNG("figs/00-rmd_raw.png") -->
+<!-- grid.raster(img) -->
+<!-- ``` -->
+
+<!-- ## What RMarkdown Output Looks Like -->
+
+<!-- ```{r fig.height=3.1, echo=FALSE} -->
+<!-- img <- readPNG("figs/00-rmd_render.png") -->
+<!-- grid.raster(img) -->
+<!-- ``` -->
+
+***
+
+\huge
+
+\begin{center}
+R Primer
+\end{center}
+
+
+
+## Functions
+
+\Large
+```{r}
+#| eval: false
+
+function(arg1, arg2, ...){
+  <the function code here...>
+}
+```
+\pause 
+```{r}
+#| warning: false
+
+sum(5, 2)
+```
+\pause 
+
+```{r}
+mean(1:4)
+``` 
+
+## Functions 
+
+\Large
+```{r}
+#| eval: false
+
+nchar("greetings")
+```
+\pause 
+```{r}
+#| echo: false
+nchar("greetings")
+```
+\pause 
+```{r}
+#| eval: false
+ls()
+```
+\pause 
+```{r}
+#| echo: false
+ls()
+```
+
+## A Useful Function: `c()`
+
+
+\Large 
+
+To concatenate objects into a vector, use `c()`:
+\pause 
+```{r}
+c(1, 3, 8, 20)
+```
+\pause 
+```{r}
+#| eval: false
+c("essex", "summer", "school")
+```
+\pause 
+```{r}
+#| echo: false
+c("essex", "summer", "school")
+```
+\pause 
+
+```{r}
+#| eval: false
+c(1, 2, "hello")
+```
+\pause 
+```{r}
+#| echo: false
+c(1, 2, "hello")
+```
+
+## Functions' Arguments
+
+
+\LARGE
+What arguments does a function have? \pause
+
+```{r}
+#| eval: false
+help(median)
+args(median)
+```
+\pause 
+```{r}
+#| echo: false
+args(median)
+```
+
+## Functions' Arguments
+
+\large
+```{r}
+median(1:3)
+```
+\pause 
+
+```{r}
+#| results: hide
+x <- c(1, 2, 3, NA) 
+median(x)
+```
+\pause 
+```{r}
+#| echo: false
+median(x)
+```
+\pause 
+
+```{r}
+#| eval: false
+median(x, na.rm = TRUE)
+```
+\pause 
+```{r}
+#| echo: false
+median(x, na.rm = TRUE)
+```
+
+## Functions' Arguments
+
+\large
+
+You can specify arguments in order or by name: \pause
+
+```{r}
+median(x, TRUE)
+```
+\pause 
+
+```{r}
+median(na.rm = TRUE, x)
+```
+\pause 
+```{r}
+#| error: true
+median(TRUE, x)
+```
+
+
+## Some Useful Functions
+
+\large
+Managing the workspace:
+
+```{r}
+# Get the working directory ("Where am I?"):
+getwd()
+```
+\pause 
+
+```{r}
+#| eval: false
+# Set the working directory:
+setwd("~/Desktop/")
+```
+\pause 
+
+But there are better ways: `.Rproj` and `{here}` package
+
+
+## Some Useful Functions
+
+\large
+Managing the workspace:
+
+```{r}
+# List objects in working dir:
+ls()
+# Remove `x' from working dir:
+rm(x)
+# Remove everything from working dir:
+rm(list = ls())
+```
+
+
+## Some Useful Functions: Making vectors
+
+```{r}
+c(1, 2, 10)
+```
+\pause 
+```{r}
+1:4
+6:3
+```
+
+## Some Useful Functions: Making vectors
+
+\Large
+
+```{r}
+seq(from = 5, to = 30, by = 5)
+```
+\pause 
+```{r}
+rep(c("a", "b"), 2)
+```
+\pause 
+```{r}
+rep(c("a", "b"), each = 2)
+```
+
+## Extracting Elements from Vectors with `[`
+
+\Large
+
+```{r}
+x <- sample(0:1, size = 10, replace = TRUE)
+```
+
+\pause 
+
+```{r}
+x
+```
+
+\pause 
+
+```{r}
+#| eval: false
+x[3]
+```
+
+\pause 
+
+```{r}
+#| echo: false
+x[3]
+```
+
+
+\pause 
+
+```{r}
+x[3] <- 999
+```
+
+\pause 
+```{r}
+x
+```
+
+
+## Some Useful Functions: Making lists
+
+```{r}
+v1 <- 1:8
+v2 <- letters[1:5]
+m <- matrix(1:9, 3, 3)
+```
+
+\pause 
+```{r}
+v1
+v2
+m
+```
+
+## Some Useful Functions: Making lists
+
+```{r}
+lll <- list(x = v1, y = v2, z = m)
+```
+
+\pause 
+
+Extract by name:
+```{r}
+#| eval: false
+lll$y
+```
+\pause 
+```{r}
+#| echo: false
+lll$y
+```
+\pause 
+
+Extract by position with `[[`:
+```{r}
+#| eval: false
+lll[[1]]
+```
+\pause 
+```{r}
+#| echo: false
+lll[[1]]
+```
+\pause 
+
+Extract from sub-object: 
+```{r}
+#| eval: false
+lll[[3]][2, 2]
+```
+\pause 
+```{r}
+#| echo: false
+lll[[3]][2, 2]
+```
+
+
+
+## Some Useful Mathematical Functions
+
+\Large
+
+```{r}
+5 + 2
+5 - 2
+5 * 2
+5 / 2
+```
+
+## Some Useful Mathematical Functions
+
+\Large
+```{r}
+5 ^ 2
+sqrt(25)
+20 %% 3
+```
+
+## Some Useful Mathematical Functions and Values
+
+```{r}
+pi
+abs(-3)
+exp(1)
+log(exp(2))
+sin(pi / 2)
+```
+
+(See R Short Ref Card \ldots)
+
+
+
+## Logicals
+
+\large
+```{r}
+TRUE
+```
+
+```{r}
+FALSE
+```
+\pause 
+
+```{r}
+#| eval: false
+TRUE == FALSE
+```
+\pause 
+```{r}
+#| echo: false
+TRUE == FALSE
+```
+
+ 
+## Logicals
+
+\large
+```{r}
+#| eval: false
+c(1, 2) == c(1, 3)
+```
+\pause 
+```{r}
+#| echo: false
+c(1, 2) == c(1, 3)
+```
+\pause 
+
+```{r}
+#| eval: false
+c(1, 2) != c(1, 3)
+```
+\pause 
+```{r}
+#| echo: false
+c(1, 2) != c(1, 3)
+```
+\pause 
+
+```{r}
+#| eval: false
+c(1, 2) < c(1, 3)
+```
+\pause 
+```{r}
+#| echo: false
+c(1, 2) < c(1, 3)
+```
+
+## Logicals
+
+\large
+
+```{r}
+c(1, 2) > c(1, 3)
+c(1, 2) <= c(1, 3)
+c(1, 2) >= c(1, 3)
+```
+
+## How to Write a New Function
+
+\Large
+```{r}
+sumDiff <- function(num1 = 3, num2 = 5){
+  
+  sum <- num1 + num2
+  
+  diff <- num1 - num2
+  
+  return(c(sum, diff))
+}
+```
+\pause 
+Now, cut and paste function into R prompt.
+
+\pause 
+(R will tell you if syntax error.)
+
+
+## My New Function
+
+\Large
+
+```{r}
+#| eval: false
+
+sumDiff()
+```
+\pause 
+```{r}
+#| echo: false
+
+sumDiff()
+```
+\pause 
+
+```{r}
+#| eval: false
+
+sumDiff(3, 5)
+```
+\pause 
+```{r}
+#| echo: false
+
+sumDiff(3, 5)
+```
+\pause 
+
+```{r}
+#| eval: false
+
+sumDiff(num2 = 5, num1 = 3)
+```
+\pause 
+```{r}
+#| echo: false
+
+sumDiff(num2 = 5, num1 = 3)
+```
+\pause 
+
+```{r}
+#| eval: false
+
+sumDiff(5, 3)
+```
+\pause 
+```{r}
+#| echo: false
+
+sumDiff(5, 3)
+```
+
+## My New Function
+
+\Large
+```{r}
+#| eval: false
+
+sumDiff(2, 20)
+```
+\pause 
+```{r}
+#| echo: false
+
+sumDiff(2, 20)
+```
+\pause 
+```{r}
+#| eval: false
+
+sumDiff(1, "yes")
+```
+\pause 
+```{r}
+#| echo: false
+#| error: true
+
+sumDiff(1, "yes")
+```
+
+
+
+
+
+***
+
+\huge
+
+\begin{center}
+Next:\\
+Randomized Experiments, Estimation, and Inference\\ 
+\pause 
+\vspace{5mm}
+Reading and PS1 for tomorrow!
+\end{center}
+
+\large
+\begin{center}
+Upload a {\tt .R} or {\tt .qmd} or {\tt .Rmd }or {\tt .txt} file to https://t.ly/1WuEn \\ (must be logged in)
+\end{center}
+
+***
+
