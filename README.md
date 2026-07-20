@@ -1,4 +1,4 @@
-# Course 2K: Essex Summer School 20xx
+# Course 2K: Essex Summer School 2026
  
 Course Materials for Causal Inference and Experiments in the Social Sciences
 
@@ -23,7 +23,7 @@ separating the problem set number from your surname with an underscore (`_`).
 To submit your solutions, 
 
 * Navigate to the appropriate directory in the repository (e.g., 
-`ci-exp-essex-2025/ps/ps1/`)
+`ci-exp-essex-2026/ps/ps1/`)
 * At the top right, click `Add file` then `Upload file`
 * Add your file, then click the green `Commit changes` button at the bottom
 * In order to update your solutions, just repeat the same instructions (and please 
