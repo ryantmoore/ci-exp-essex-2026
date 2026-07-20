@@ -1,0 +1,133 @@
+---
+title: "ps1_Filiposki.N"
+author: "Nikolina Filiposki"
+date: "2026-07-20"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: true
+    toc_float: true
+    css: css/lab.css
+header-includes:
+   - \usepackage[default]{sourcesanspro}
+   - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# First we define which packages needed for our analysis and assign it to 
+# the p_needed object. 
+p_needed <-
+  c("tidyverse",
+    "stringr",
+    "forcats",
+    "readxl",
+    "stargazer")
+
+# Now check which packages are already installed on the computer.
+# The function installed.packages() returns a vector with all the installed 
+# packages.
+
+packages <- rownames(installed.packages())
+
+# Then check which of the packages needed are not installed on the
+# computer yet. Essentially we compare the vector p_needed with the vector
+# packages. The result of this comparison is assigned to p_to_install.
+p_to_install <- p_needed[!(p_needed %in% packages)]
+
+# If at least one element is in p_to_install then install those missing
+# packages.
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+
+# Now that all packages are installed on the computer, load them for
+# this project. Additionally the expression returns whether the packages were
+# successfully loaded.
+sapply(p_needed, require, character.only = TRUE)
+
+# This is an option for stargazer tables
+#stargazer_opt <- ifelse(knitr::is_html_output(), "html")
+# "latex"
+```
+
+
+
+## 2.1
+
+#a
+Notation $Y_i(0)$ means the potential outcome of individual $i$ under the control condition, meaning that the individual receives no treatment.
+
+# b
+Notation $Y_i(0)\mid D_i=1$ means the potential outcome under the control condition for individuals who were actually assigned to the treatment group. In contrast, notation $Y_i(0)\mid D_i=0$ means the potential outcome under the control condition for individuals who were actually assigned to the control group.
+
+# c
+While $Y_i(0)$ refers generally to the potential outcome under the control condition, $Y_i(0)\mid D_i=0$ refers specifically to the potential outcome under control among individuals who were actually assigned to the control group.
+
+# d 
+Here, $Y_i(0)\mid D_i=1$ means the potential outcome under the control condition for individuals who actually received the treatment. This outcome is counterfactual because these individuals did not actually receive the control condition. In comparison, $Y_i(0)\mid D_i=0$ means the potential outcome under the control condition for individuals who were actually assigned to the control group.
+
+# e
+Further, $E[Y_i(0)]$ means the average potential outcome under the control condition for the entire population, while $E[Y_i(0)\mid D_i=1]$ means the average potential outcome under the control condition among individuals who were actually assigned to the treatment group.
+
+#f
+The selection bias in equation 2.15,
+
+$E[Y_i(1)\mid D_i=1]-E[Y_i(0)\mid D_i=0]$
+
+can be decomposed into the average treatment effect on the treated and the selection bias:
+
+$E[Y_i(1)-Y_i(0)\mid D_i=1] + \left(E[Y_i(0)\mid D_i=1]-E[Y_i(0)\mid D_i=0]\right).$
+
+The selection bias is zero when $D_i$ is randomly assigned because random assignment makes treatment status independent of the potential outcomes. Therefore,
+
+$E[Y_i(0)\mid D_i=1]=E[Y_i(0)\mid D_i=0].$
+
+This prevents informed guessing or pre-existing differences between the groups from systematically influencing treatment assignment. 
+ 
+## 2.10
+
+#a
+The university researchers would influence the assignment mechanism if they informed participants before the experiment about the objective and hypothesis of the study. The letter stating the hypothesis that students who receive more newspaper articles become more interested in politics could lead students in the treatment group to change their behaviour because they now know what the researchers expect. This resembles the example of the rudder that steers the direction of a boat.
+
+The problem is not that the average treatment effect no longer amounts to zero. Rather, informing participants may change the treatment itself or produce demand effects. Consequently, the observed outcome may reflect both the newspaper treatment and the participants’ reaction to knowing the hypothesis.
+
+#b
+If students read their newspapers in the cafeteria, where they may be seen or read by others, this can jeopardise the non-interference assumption. Students from the control group could accidentally read the newspaper or discuss its content with treated students. In that case, the treatment assigned to one student could influence the outcome of another student.
+
+This would violate the assumption that one individual’s potential outcome depends only on their own treatment assignment and not on the treatment assignment of other participants.
+
+## 2.12
+
+#a
+One might be hesitant to assume that
+
+$E[Y_i(0)\mid D_i=0]=E[Y_i(0)\mid D_i=1]$
+
+because the assignment is determined by nature and is not purely random across the prisoners. It could be that prisoners who choose to read are less violent because they are more introverted, more educated, or different in other ways compared with prisoners who read less.
+
+These differences may influence both reading behaviour and violent behaviour. Therefore, the relationship between reading and violence may be affected by confounders and cannot automatically be interpreted as a causal treatment effect.
+
+The issue is not that the average treatment effect is assumed to be zero. Rather, the problem is that the treatment and control groups may differ even without the treatment.
+
+# b
+Random assignment would help ensure that the treatment and control groups are comparable on average. However, the researchers would also need to ensure that the prisoners comply with their assignments and that there are no all-partakers, non-partakers, or other forms of non-compliance.
+
+However, the excludability assumption may still not be met. Assignment to the reading programme could influence violent behaviour through mechanisms other than reading itself, such as increased supervision, additional attention from prison staff, time spent in a quieter environment, or reduced contact with other prisoners. Therefore, random assignment alone does not guarantee that the observed effect is caused only by reading.
+
+The exclusion restriction would require that assignment to the reading programme affects violent behaviour only through actual reading and not through another mechanism, such as increased supervision, access to a quieter room, or additional attention from prison staff.
+
+#c
+The assumption of non-interference, as it applies in this experiment, means that the treatment assignment of one prisoner must not affect the potential outcome of another prisoner.
+
+For example, assigning one prisoner to the reading treatment should not reduce or increase the violent behaviour of prisoners in the control group through discussion, shared spaces, imitation, or changes in the prison environment.
+
+#d
+Suppose that the results of the experiment indicate that the reading treatment sharply reduces violent confrontations with prison staff. The non-interference assumption becomes important when evaluating a policy under which all prisoners are required to read for three hours.
+
+The effect observed in the experiment may not be identical to the effect of implementing the treatment for all prisoners. For example, treated prisoners may influence untreated prisoners, prison staff may change their behaviour, or the general prison environment may change when everyone participates.
+
+Therefore, the outcome of one prisoner may depend not only on their own treatment but also on how many other prisoners receive the treatment. This would violate the non-interference assumption and make it difficult to directly generalise the experimental result to a policy applied to all prisoners.
