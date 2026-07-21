@@ -1,4 +1,4 @@
-# Randomization and Potential Outcomes sample code
+# Randomisation and Potential Outcomes sample code
 
 # First, install.packages("tidyverse")
 

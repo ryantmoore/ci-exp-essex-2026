@@ -1,0 +1,113 @@
+---
+title: | 
+    | Exercise: Potential Outcomes Model
+author: "Ryan T. Moore"
+date: '2026-07-21'
+documentclass: article
+format:
+  pdf:
+    geometry: 
+      - top=2cm
+    number_sections: false
+    toc: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Suppose a political party wants to estimate the effect of introducing a **new voter registration system** on voter turnout. The registration system will make it easier to register and will highlight the upcoming election, in hopes of increasing turnout. The party randomly selects 3 out of 6 local villages in which to introduce the system. After the election, they compare villages with the new system to the old system. Let the new registration system be the treatment ($T=1$), and the old system be the control ($T=0$). For village $i$, the observed outcome is $Y_i(T_i)$, the turnout percentage.
+
+
+| Village | System | Turnout (%) | $Y_i(1)$        | $Y_i(0)$        |
+| :-----: | :----: | :---------: | :-------------: | :-------------: |
+|    A    |  New   |     40      | $\qquad \qquad \qquad$ | $\qquad \qquad \qquad$ |
+| | | | | |
+|    B    |  New   |     50      |                 |                 |
+| | | | | |
+|    C    |  Old   |     50      |                 |                 |
+| | | | | |
+|    D    |  New   |     30      |                 |                 |
+| | | | | |
+|    E    |  Old   |     30      |                 |                 |
+| | | | | |
+|    F    |  Old   |     70      |                 |                 |
+| | | | | |
+
+Table: Experiment 1; treatment assignments and turnout percentages for 6 villages. \label{t:y1y0}
+
+## Part 1
+
+1. In Table \ref{t:y1y0}, fill in any information we know from this experiment.  
+
+2. What is the "fundamental problem of causal inference"? Describe it in the _substantive_ terms of the political example here.
+
+\vspace{.5in}
+
+3. Calculate an estimate of the experiment's average treatment effect -- the difference between the average turnout in treated versus control villages. Substantively, did the new program appear to meet its goal?
+
+
+\vspace{.5in}
+
+
+## Part 2
+
+Suppose the party conducts the experiment again in a subsequent electoral cycle. Somehow, you know for certain what would happen in every village under both the new and old systems. Table \ref{t:yobs} contains the full set of potential outcomes from this 2nd experiment.  
+
+| Village | System | $Y_i(1)$ | $Y_i(0)$ | $Y_i^{obs}$       |
+| :-----: | :----: | :------: | :------: | --------------- |
+|    G    |  Old   |    20    |    40    | $\qquad \qquad \qquad$ |
+||||||
+|    H    |  New   |    60    |    50    |                 |
+||||||
+|    I    |  Old   |    70    |    70    |                 |
+||||||
+|    J    |  New   |    40    |    60    |                 |
+||||||
+|    K    |  New   |    100    |    10    |                 |
+||||||
+|    L    |  Old   |    80    |    80    |                 |
+||||||
+
+Table: Experiment 2; treatment assignments and turnout percentages for 6 other villages.  \label{t:yobs}
+
+4. Fill out the empty column of observed outcomes in Table \ref{t:yobs}.
+
+5. What is the true treatment effect of the new registration system in Village G?
+
+\vspace{.1in}
+
+6. What is the true treatment effect of the new registration system in Village L?
+
+\vspace{.1in}
+
+
+## Part 3
+
+Consider only the first four villages of Part 1. Assume a constant 
+$\tau_i = 10 \quad \forall i$ and complete the table below.
+
+| Village | System | Turnout (%) | $Y_i(1)$        | $Y_i(0)$        |
+| :-----: | :----: | :---------: | :-------------: | :-------------: |
+|    A    |  New   |     40      | $\qquad \qquad \qquad$ | $\qquad \qquad \qquad$ |
+| | | | | |
+|    B    |  New   |     50      |                 |                 |
+| | | | | |
+|    C    |  Old   |     50      |                 |                 |
+| | | | | |
+|    D    |  Old   |     30      |                 |                 |
+| | | | | |
+
+7. How many assignments of 2 villages to each system could there be?
+
+\vspace{.1in}
+
+8. Calculate the empirical $\widehat{ATE}$ for each of those assignments.
+
+\vspace{.1in}
+
+9. Calculate the mean of those $\widehat{ATE}$ values, and comment.
+

@@ -1573,7 +1573,7 @@ sumDiff(1, "yes")
 
 \begin{center}
 Next:\\
-Randomized Experiments, Estimation, and Inference\\ 
+Randomised Experiments, Estimation, and Inference\\ 
 \pause 
 \vspace{5mm}
 Reading and PS1 for tomorrow!
