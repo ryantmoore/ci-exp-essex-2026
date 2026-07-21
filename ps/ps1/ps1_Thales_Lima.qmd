@@ -1,0 +1,62 @@
+---
+title: "Problem Set 1"
+subtitle: "Causal Inference and Experiments in the Social Sciences"
+author: "Thales Souza Lima"
+date: today
+format:
+  pdf:
+    documentclass: article
+    geometry:
+      - margin=1in
+    number-sections: false
+    keep-tex: false
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+# Exercise 2.1
+
+a\) Y is the notation for the potential outcome. Assuming 1 = the treatment (we did an experiment) and 0 we didn't do the experiment, the notation Yi(0) is the potential outcome when the sample was not treated.
+
+b\) Yi(0)\|Di = 1 is the untreated potential outcome among units assigned to treatment. It is therefore the theoretical counterfactual outcome for the treated group, since these units are observed under treatment but we wish to know what would have happened had they instead received the control condition. Here, D_i is a random variable that can take the values 0 or 1.
+
+In contrats, Yi(0)\|di = 1, conditions on a fixed treatment value rather than on the random assignment variable. The lowercase d_i denotes a particular treatment condition (here, treatment), whereas the uppercase D_i denotes the random assignment mechanism. Under SUTVA, potential outcomes are indexed only by a unit’s own treatment value, d_i, because they are assumed not to depend on the treatment assignments of other units.
+
+c\) Yi(0) is the potential outcome of the untreated sample, while Yi(0)\|Di = 0 is the potential outcome of the untreated population that did not get treatment.
+
+d\) Yi(0)\|Di = 1 is the potential outcome of the untreated population if they had received treatment, it is the counter factual, non-existent measure. Yi(0)\|Di = 0 is the potential outcome of the untreated population that was not treated. This we can measure.
+
+e\) The first expected value refers to the potential outcome of the untreated group. The second one is the counter factual potential outcome. It is the expected value of the untreated group if it had being treated.
+
+f\) The idea is that randomly assigning we would not have biased samples (people that would take the experiment despite the treatment), so both expected values would be the same. Both samples are comparaable before treatment.
+
+# Exercise 2.10
+
+a\) You wouldn't be able to isolate the effect of the newspapers distribution. We coudl not estimate properly Y(1) \| D = 1.
+
+b\) Both groups need to be independent, otherwise, again, you would not be able to isolate the newspapers effect.
+
+# Exercise 2.12
+
+a\) We can't assume it because they were not randomly assigned. There could be prisoners that are naturally less likely to be violent, for example.
+
+b\) It changes drastically their routines, so some problems could arise. For example, the untreated inmates could notice that some of their peers were not around and it could reduce/increase violence.
+
+c\) The non-interference assumption requires that one prisoner’s potential outcome depend only on that prisoner’s own treatment status, not on the treatment assignments of other prisoners.
+
+d\) I don't think we could extrapolate it and make every prisoner read for 3 hours because we would change the whole environment. If we make everyone reads, the could recude fighting for the simple fact that they are meeting less with each other.
