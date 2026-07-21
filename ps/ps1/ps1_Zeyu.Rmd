@@ -1,0 +1,47 @@
+---
+title: "ps1_Zeyu"
+author: "Zeyu(Zey)"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# PS1
+
+## 1.
+
+(a) The potential outcome if subject i is not exposed to the treatment.
+
+(b) The untreated potential outcome of subject i, who is assigned in the treatment group.
+
+**Contrast:** The untreated potential outcome of subject i, who actually receives the treatment.
+
+(c) The untreated potential outcome, no matter which group i is assigned or whether i gets treatment.
+
+**Contrast:** The untreated potential outcome of subject i, who is assigned in the control group.
+
+(d) The untreated potential outcome of subject i, who is assigned in the treatment group.
+
+**Contrast:** The untreated potential outcome of subject i, who is assigned in the control group.
+
+(e) The expected value of untreated potential outcome of subject i, when subject i is sampled at random.
+
+**Contrast:** The expected value of untreated potential outcome of subject i, when subject i is sampled at random from the treatment group.
+
+(f) When Di is randomly assigned, treatment status is independent of the subjects' potential outcomes and their background attributes. $E[Y_i(1)|D_i=1]=E[Y_i(1)|D_i=0]=E[Y_i(1)]$, meanwhile $E[Y_i(0)|D_i=1]=E[Y_i(0)|D_i=0]=E[Y_i(0)]$. So the “selection bias” term in equation (2.15) equals to zero.
+
+## 10.
+
+(a) This disclosure will jeopardize the excludability assumption through asymmetries in measurement. Students get free newspaper might exaggerate their improvement of interests in politics, which can cause the difference-in-means estimator larger than it actually is: the error term $E[e_{i1}|D_i=1]>E[e_{i0}|D_i=0]$ , which is a biased outcome.
+
+(b) Students assigned in control group can get access to the treatment, which means the expected outcomes are not independent from the treatment status.
+
+## 12.
+
+(a) Prisoners who naturally read more may differ from those who do not. They may be less aggressive, more disciplined, or better educated. These characteristics can affect violent encounters even without treatment, so the potential outcomes are unlikely to be independent of treatment status. Assuming $E[Y_i(1)|D_i=1]=E[Y_i(1)|D_i=0]=E[Y_i(1)]$ and $E[Y_i(0)|D_i=1]=E[Y_i(0)|D_i=0]=E[Y_i(0)]$ could be dangerous.
+
+(b) Assignment changes more than reading behavior. Prisoners in the treatment group spend time in a special location under different supervision and have fewer opportunities for violent encounters. For example, going to the library might lead to isolation from other prisoners and less contact with guards. It is something else (location change) that leads to the outcome, and it is more than treatment.
+
+(c) The number of violent encounters by prisoner i should depend only on whether prisoner i reads, rather than whether other prisoners read.
+
+(d) In this experiment, we can control for the non-interference principle. But if all prisoners are required to read, one prisoner's outcome may depend on others' reading status because prison routines or social interactions can be different from the experiment condition. So the experimental estimate may not same to the effect of a reading policy.
+
