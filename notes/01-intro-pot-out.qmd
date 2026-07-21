@@ -85,8 +85,8 @@ experiments in public policy
 \large
 
 >- Identify causal effects using the potential outcomes framework
->- Perform design-based inference for randomized experiments
->- Create and analyze variety of randomized designs, including for blocked, 
+>- Perform design-based inference for randomised experiments
+>- Create and analyze variety of randomised designs, including for blocked, 
 conjoint, list, and multiarm bandit experiments
 >- Relate experiments to regression quantities
 >- Estimate mediation effects and assess their sensitivity
@@ -141,23 +141,23 @@ vs.
 We will focus on "effects of a cause"\pause, where the "cause" is well-defined.
 
 
-## Example: Canvassing and Program Enrollment
+## Example: Canvassing and Programme Enrolment
 
 \pause 
 
 \Large
 
-"Canvassing": a systematic program where agents talk with residents (knock on doors) at the residents' home.
+"Canvassing": a systematic programme where agents talk with residents (knock on doors) at the residents' home.
 
 \vspace{1mm}
 
 ![Credit: The Campaign Workshop](figs/01-canvass.jpg){width=70%}
 
-## Example: Canvassing and Programme Enrollment
+## Example: Canvassing and Programme Enrolment
 
 \large
 
-Suppose we ask, ``Would a canvassing policy increase enrollment in a health insurance programme?\text{''} \pause 
+Suppose we ask, ``Would a canvassing policy increase enrolment in a health insurance programme?\text{''} \pause 
 
 \vspace{2mm}
 
@@ -173,13 +173,13 @@ Citizen & Canvassed? & Enrolled? \\ \hline
 
 \vspace{2mm}
 
->- What fraction enroll under canvassing vs. no canvassing?  
+>- What fraction enrol under canvassing vs. no canvassing?  
 >- $\frac{2}{2} - \frac{0}{2} = 1$
->- (For each person canvassed, expect 1 more enrollment.)
+>- (For each person canvassed, expect 1 more enrolment.)
 
->- Did the policy "work" (cause more enrollment)?
+>- Did the policy "work" (cause more enrolment)?
 
-## Motivating Example: Canvassing and Enrollment
+## Motivating Example: Canvassing and Enrolment
 
 \LARGE
 But, is it causal? \newline \pause 
@@ -188,7 +188,7 @@ But, is it causal? \newline \pause
 What do we really want to know? \newline   \pause 
 \vspace{1mm}
 
-Would canvassing actually _change_ anyone's enrollment? \newline \pause 
+Would canvassing actually _change_ anyone's enrolment? \newline \pause 
 
 \vspace{1mm}
 
@@ -196,13 +196,13 @@ What would have happened under _other_ conditions?
 
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \large 
 \begin{center}
 \begin{tabular}{ccccc}
- & & Would Enroll if & Would Enroll if  & \\
-Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
+ & & Would Enrol if & Would Enrol if  & \\
+Citizen & Canvass? & Canvass? & No Canvass? & Enrol \\ \hline
 1 & Yes & \only<2->{Yes} & \only<6->{\alert{(Yes)}} &  Yes \\
 2 & Yes & \only<3->{Yes} & \only<6->{\alert{(No)}} &  Yes \\
 3 & No & \only<6->{\alert{(Yes)}} & \only<4->{No} &  No \\
@@ -215,12 +215,12 @@ Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
 \pause 
 
 \onslide<7->{What is the true causal effect of canvassing? \\}
-\onslide<8->{What fraction enroll under canvass vs. no canvass? \\} 
-\onslide<9->{What fraction change enrollment due to canvass?\\} 
+\onslide<8->{What fraction enrol under canvass vs. no canvass? \\} 
+\onslide<9->{What fraction change enrolment due to canvass?\\} 
 \onslide<10->{$\frac{3}{4} - \frac{1}{4} = \frac{1}{2}$}
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 Empirical data consistent with *different* _unobserved_ outcomes:
 
@@ -229,8 +229,8 @@ Empirical data consistent with *different* _unobserved_ outcomes:
 \large
 \begin{center}
 \begin{tabular}{ccccc}
- & & Would Enroll if & Would Enroll if  & \\
-Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
+ & & Would Enrol if & Would Enrol if  & \\
+Citizen & Canvass? & Canvass? & No Canvass? & Enrol \\ \hline
 1 & Yes & Yes & \alert{(Yes)} &  Yes \\
 2 & Yes & Yes & \alert{(No)} &  Yes \\
 3 & No & \alert{(Yes)} & No &  No \\
@@ -243,11 +243,11 @@ Citizen & Canvass? & Canvass? & No Canvass? & Enroll \\ \hline
 \vspace{5mm}
 
 What is the true causal effect of canvass? \newline  
-What fraction enroll under canvass vs. no canvass? \newline  \pause 
+What fraction enrol under canvass vs. no canvass? \newline  \pause 
 $\frac{4}{4} - \frac{1}{4} = \frac{3}{4}$
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \LARGE
 
@@ -599,7 +599,7 @@ Possible _assignment mechanisms_:
 
 \begin{itemize}
 \item Let Citizens decide whether to get Canvass \pause 
-\item[] (But, those who choose Canvass will Enroll anyway) \pause 
+\item[] (But, those who choose Canvass will Enrol anyway) \pause 
 \item[] (We will estimate {\it too large} effect)
 \item Let Party decide whom gets Canvass \pause 
 \item[] (But, Party will only Canvass those it will affect) \pause
@@ -719,7 +719,7 @@ The assignment mechanism _selects_ which potential outcome we observe.
 
 Statistical language 
 
->* _parameter_: unknown numeric value characterizing feature of
+>* _parameter_: unknown numeric value characterising feature of
   prob model (Greek; $\theta$, $\beta$) 
 >* _statistic_: quantity calculable from observed data.  A function. (Roman)
 >* _estimator_: statistic used to approximate/guess parameter ($\hat{\theta}$, $\hat{\beta}$)
@@ -984,10 +984,18 @@ Let $T_i$ be treatment _assigned_, $D_i$ be treatment _received_.
 	ITT &=& (\overline{Y_1} | T = 1) - (\overline{Y_0} | T = 0) \\
 	&=& (\overline{Y_1} | T = 1, D(T=1)) - (\overline{Y_0} | T = 0, D(T=0)) 
 	\end{eqnarray*} 
->- As-treated effect
+>- Causal effect of _being assigned_ (ignores receipt)
+>- As-treated difference
 	\begin{eqnarray*}
 	ASTRE &=& (\overline{Y_1} | D = 1) - (\overline{Y_0} | D = 0)
 	\end{eqnarray*}
+>- If selection into $D$ is confounded, likely *not* causal effect (ignores assignment)
+>- Per protocol difference
+\begin{eqnarray*}
+PP &=& \big(\overline{Y_1} \mid T = 1, D = 1\big) -
+  \big(\overline{Y_0} \mid T = 0, D = 0\big)
+\end{eqnarray*}
+>- If noncompliance, still confounded
 
 
 # Computing 
@@ -999,11 +1007,10 @@ Let $T_i$ be treatment _assigned_, $D_i$ be treatment _received_.
 >- R for simulations, estimation, graphics
 >- RStudio, an IDE for R
 >- GitHub to store materials, submit PS
-<!-- >- Calend.ly for scheduling a meeting  -->
 >- How should we chat? (email, Slack, \ldots)
 <!-- >- RMarkdown for literate programming (papers with data analysis embedded) -->
 <!-- >- Slack for course announcements, direct messages, etc. -->
-<!-- >- Blackboard for distributing, collecting PS's -->
+
 
 
 <!-- ## RMarkdown -->
