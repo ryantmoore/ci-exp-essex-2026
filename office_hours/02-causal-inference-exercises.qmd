@@ -1,0 +1,320 @@
+---
+title: "Causal Inference and Experimentation: Chapter 2 Exercises"
+format: html
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+These solutions work through Exercises 1, 10, and 12 from Chapter 2
+(Gerber & Green, *Field Experiments*).
+
+## Exercise 1: Potential Outcomes Notation
+
+Throughout, $Y_i(0)$ and $Y_i(1)$ are the potential outcomes for unit
+$i$ under control and treatment, $d_i$ is the treatment a unit is
+*actually* observed to receive in the data, and $D_i$ is a *random
+variable* denoting the treatment a unit *could* be assigned under a
+hypothetical randomization.
+
+### 1(a)
+
+> **Explain the notation "**$Y_i(0)$."
+
+$Y_i(0)$ is the potential outcome that subject $i$ would exhibit **if it
+were not treated** ($d = 0$). It is a fixed attribute of the subject —
+the value the outcome variable takes in the state of the world where the
+subject goes untreated — regardless of whether that subject is actually
+treated in the data. For a subject that ends up treated, $Y_i(0)$ is the
+counterfactual (unobserved) outcome.
+
+### 1(b)
+
+> **Explain the notation "**$Y_i(0) \mid D_i = 1$" and contrast it with
+> the notation "$Y_i(0) \mid d_i = 1$."
+
+Both refer to the untreated potential outcome $Y_i(0)$ for a subject
+that *receives* the treatment, but they differ in what kind of
+conditioning is going on:
+
+- $Y_i(0) \mid D_i = 1$ conditions on a **random variable** $D_i$. It
+  denotes the untreated potential outcome for a subject selected from
+  among those who would be assigned to treatment under some hypothetical
+  randomization. Because $D_i$ is random, this expression is itself a
+  random quantity whose distribution can vary from one hypothetical
+  assignment to the next.
+- $Y_i(0) \mid d_i = 1$ conditions on the **observed, realized**
+  treatment $d_i$ in an actual dataset. It denotes the untreated
+  potential outcome of a subject that we in fact observe to be treated.
+
+In short: $D_i = 1$ refers to a hypothetical/statistical assignment we
+reason about (allowing us to take expectations over randomizations),
+whereas $d_i = 1$ refers to the one assignment nature or the experiment
+actually handed us.
+
+### 1(c)
+
+> **Contrast the meaning of "**$Y_i(0)$" with the meaning of
+> "$Y_i(0) \mid D_i = 0$."
+
+$Y_i(0)$ is the untreated potential outcome of subject $i$ **without any
+conditioning** — a property the subject carries whether it is ultimately
+treated or not.
+
+$Y_i(0) \mid D_i = 0$ is the untreated potential outcome for a subject
+**drawn from the subgroup that is assigned to control** ($D_i = 0$).
+Here we restrict attention to units in the control condition. In general
+these two need not have the same distribution: the subjects who land in
+control could differ systematically from all subjects. They coincide
+only when assignment is independent of potential outcomes (as under
+random assignment).
+
+### 1(d)
+
+> **Contrast the meaning of "**$Y_i(0) \mid D_i = 1$" with the meaning
+> of "$Y_i(0) \mid D_i = 0$."
+
+Both refer to the *untreated* potential outcome $Y_i(0)$, but for two
+different subgroups:
+
+- $Y_i(0) \mid D_i = 1$ is the untreated potential outcome among
+  subjects assigned to **treatment**. This is a counterfactual quantity
+  — for treated units we never actually observe $Y_i(0)$.
+- $Y_i(0) \mid D_i = 0$ is the untreated potential outcome among
+  subjects assigned to **control**. This one is observable, because
+  control units do reveal their $Y_i(0)$.
+
+The whole logic of experimentation rests on whether these two are equal
+in expectation. If they are, the observed control outcomes stand in for
+the missing treated-group $Y_i(0)$.
+
+### 1(e)
+
+> **Contrast the meaning of "**$E[Y_i(0)]$" with the meaning of
+> "$E[Y_i(0) \mid D_i = 1]$."
+
+$E[Y_i(0)]$ is the **average untreated potential outcome over all
+subjects** — the expected value of $Y_i(0)$ when a subject is drawn at
+random from the entire pool.
+
+$E[Y_i(0) \mid D_i = 1]$ is the average untreated potential outcome
+**among the subset of subjects assigned to treatment**. It is a
+conditional expectation restricted to the treatment group.
+
+These are equal when treatment assignment is statistically independent
+of potential outcomes; otherwise the treatment group's average $Y_i(0)$
+can differ from the population average, which is precisely the source of
+selection bias.
+
+### 1(f)
+
+> **Explain why the "selection bias" term in equation (2.15),**
+> $E[Y_i(0) \mid D_i = 1] - E[Y_i(0) \mid D_i = 0]$, is zero when $D_i$
+> is randomly assigned.
+
+The selection-bias term compares the average untreated potential outcome
+in the treatment group with that in the control group. When $D_i$ is
+**randomly assigned**, treatment status carries no information about a
+subject's potential outcomes — formally,
+$Y_i(0), Y_i(1) \perp\!\!\!\perp
+D_i$. Random assignment makes the treatment and control groups two
+random samples of the same pool, so each has the same expected untreated
+potential outcome as the pool overall:
+
+$$E[Y_i(0) \mid D_i = 1] = E[Y_i(0)] = E[Y_i(0) \mid D_i = 0].$$
+
+Subtracting, the selection-bias term vanishes:
+
+$$E[Y_i(0) \mid D_i = 1] - E[Y_i(0) \mid D_i = 0] = 0.$$
+
+With selection bias eliminated, the difference in means recovers the ATE
+among the treated, which under random assignment equals the ATE for the
+whole sample.
+
+## Exercise 10: Free Newspaper Subscription
+
+> A list of student dorm rooms is sorted randomly; the first half
+> receive a newspaper each morning for two months (treatment) and the
+> second half do not (control). The outcome is students' interest in
+> politics.
+
+### 10(a)
+
+> **Suppose that prior to the experiment researchers distributed a
+> letter informing students in the treatment group that they would be
+> receiving a newspaper as part of a study to see if newspapers make
+> students more interested in politics. Explain (in words and using
+> potential outcomes notation) how this disclosure may jeopardize the
+> excludability assumption.**
+
+Excludability requires that potential outcomes respond **only to the
+treatment itself** — here, receipt of the newspaper — and not to any
+by-product of being assigned to treatment. The disclosure letter is such
+a by-product: it is delivered only to the treatment group and it
+announces both that the student is in a study and what the study is
+about ("to see if newspapers make students more interested in
+politics").
+
+That letter can raise political interest through channels that have
+nothing to do with reading the paper. A student who learns the
+researchers are watching, and learns the hypothesis, may pay more
+attention to politics for reasons of experimenter demand or simple
+priming — even if they never open the newspaper.
+
+Formally, let $z_i$ index assignment (which triggers the letter) and
+$d_i$ index actual newspaper receipt. Excludability is the assumption
+that $Y_i(z, d) = Y_i(d)$ — the outcome depends on $d$ alone. The letter
+breaks this: now
+
+$$Y_i(z = 1, d) \neq Y_i(z = 0, d),$$
+
+because assignment affects the outcome through the letter, a path
+separate from receiving the paper. The estimated treatment effect then
+mixes the effect of the newspaper with the effect of being told one is
+being studied.
+
+### 10(b)
+
+> **Suppose that students in the treatment group carry their newspapers
+> to the cafeteria where they may be read by others. Explain (in words
+> and using potential outcomes notation) how this may jeopardize the
+> non-interference assumption.**
+
+Non-interference (SUTVA) requires that a subject's potential outcomes
+depend only on **its own** treatment status, not on the treatments
+assigned to other subjects. If treated students carry their papers to
+the cafeteria and control students read them there, then a control
+student's political interest is influenced by *other* students'
+treatment — a spillover.
+
+Under non-interference we may write potential outcomes as $Y_i(d_i)$,
+depending only on unit $i$'s own treatment. The cafeteria spillover
+forces the fuller notation $Y_i(\mathbf{d})$, where $\mathbf{d}$ is the
+vector of *everyone's* treatments: a control student's outcome now
+depends on how many nearby students were treated,
+
+$$Y_i(d_i = 0, \ \mathbf{d}_{-i}) \neq Y_i(d_i = 0, \ \mathbf{0}).$$
+
+Because treated papers "leak" to controls, the control group is
+partially treated. This contaminates the baseline and typically causes
+the difference in means to **understate** the true effect of the
+newspaper.
+
+## Exercise 12: Prison Reading and Violent Encounters
+
+> A researcher notes that inmates who read at least three hours per day
+> have fewer violent encounters with staff, and recommends requiring all
+> inmates to read three hours daily. Let $d_i = 0$ for reading less than
+> three hours and $d_i = 1$ for reading more than three hours. $Y_i(0)$
+> and $Y_i(1)$ are the potential numbers of violent encounters under
+> each reading regime.
+
+### 12(a)
+
+> **In this study, nature has assigned a particular realization of**
+> $d_i$ to each subject. Why might one be hesitant to assume that
+> $E[Y_i(0) \mid D_i = 0] = E[Y_i(0) \mid D_i = 1]$ and
+> $E[Y_i(1) \mid D_i = 0] = E[Y_i(1) \mid D_i = 1]$?
+
+These two equalities say that heavy readers and light readers have the
+same average potential outcomes — i.e., that reading behavior is
+**as-good-as-randomly assigned** with respect to violent tendencies. In
+this observational study, reading is **self-selected**, not randomized,
+so that is hard to believe.
+
+The prisoners who *choose* to read three or more hours a day likely
+differ systematically from those who do not, in ways that also affect
+their propensity for violence. Calmer, more self-regulated, less
+impulsive, or better-educated inmates may both read more **and** be less
+prone to confrontations with staff regardless of how much they read. If
+so, the readers would have fewer violent encounters even under the
+control regime:
+
+$$E[Y_i(0) \mid D_i = 1] < E[Y_i(0) \mid D_i = 0],$$
+
+and similarly for $Y_i(1)$. This is exactly selection bias: the
+correlation between reading and fewer violent encounters may reflect
+*who chooses to read* rather than any causal effect of reading. The
+observed difference confounds the treatment with pre-existing
+differences between the groups.
+
+### 12(b)
+
+> **Suppose researchers randomly assign 10 prisoners to a treatment
+> group who read in designated carrels for three hours daily for one
+> week, while the control group goes about its usual routine. Assume all
+> treated prisoners in fact read three hours and no control prisoner
+> read at all. Critically evaluate the excludability assumption as it
+> applies to this experiment.**
+
+Excludability requires that outcomes respond only to the **treatment of
+interest** — reading three hours a day — and not to other features of
+how the treatment is administered. Here the experimental manipulation
+bundles reading together with several other changes, so excludability is
+doubtful.
+
+Treated prisoners are sent to the **library** to read in **special
+carrels** for three hours each day. That regimen changes far more than
+reading: it removes them from the general population and any conflict
+there, places them in a quiet supervised setting, alters their daily
+schedule, and may change their contact with the very staff whose
+encounters are being counted. Any reduction in violent encounters could
+stem from this relocation and structure rather than from reading itself.
+Using $z_i$ for the assigned regimen and $d_i$ for "read three hours,"
+excludability is $Y_i(z, d) = Y_i(d)$; it fails if being sent to the
+library carrels affects encounters through a path other than reading,
+
+$$Y_i(z = 1, d) \neq Y_i(z = 0, d).$$
+
+To isolate the effect of reading, the control group should differ from
+the treatment group **only** in the reading, e.g., by having controls
+spend the same three hours in the same carrels doing a non-reading
+activity. As designed, the estimate reflects "library carrel time plus
+reading," not reading alone.
+
+### 12(c)
+
+> **State the assumption of non-interference as it applies to this
+> experiment.**
+
+Non-interference here means that each prisoner's potential number of
+violent encounters depends only on **that prisoner's own** reading
+assignment, not on whether **other** prisoners were assigned to read.
+Formally, prisoner $i$'s potential outcomes can be written $Y_i(d_i)$ —
+a function of $i$'s own treatment alone — and are unchanged by the
+vector of treatments given to everyone else:
+$Y_i(\mathbf{d}) = Y_i(d_i)$. In plain terms, assigning some inmates to
+the reading program does not change the number of violent encounters
+experienced by inmates outside the program (or by other program
+members).
+
+### 12(d)
+
+> **Suppose the experiment indicates that the reading treatment sharply
+> reduces violent confrontations. How does the non-interference
+> assumption come into play if the aim is to evaluate a policy whereby
+> *all* prisoners are required to read three hours?**
+
+The experiment estimates the effect of treating a **small, random
+subset** (10 prisoners) while everyone else carries on as usual. A
+blanket policy treats **everyone at once** — a very different regime —
+so non-interference is what licenses (or blocks) extrapolating from one
+to the other.
+
+Violence is inherently interactive: a confrontation usually involves
+more than one person. When only a few inmates read, the observed
+reduction may occur partly *because the rest of the population is
+unchanged* — a calmer minority moving through an otherwise normal
+prison. Under a universal policy the entire environment changes: general
+tension, staffing, crowding in common areas, and the behavior of
+everyone else all shift simultaneously. These general-equilibrium
+spillovers are exactly the interference that non-interference assumes
+away.
+
+Consequently, the experimental estimate need not carry over to the
+all-prisoners policy. If treating one inmate lowers violence partly by
+reducing conflict with **others**, then treating everyone could produce
+a larger effect; conversely, if the small-scale effect depends on the
+surrounding population staying the same, scaling up could yield a
+smaller effect. Without non-interference, the partial-treatment
+experiment does not, on its own, identify the effect of the full policy.
