@@ -3,6 +3,12 @@
 
 # Preliminaries -----------------------------------------------------------
 
+# Alternative pkg installation:
+library("pak")
+
+# Install from GitHub, not CRAN:
+pak("kosukeimai/qss-package")
+
 library(qss)
 library(tidyverse)
 
