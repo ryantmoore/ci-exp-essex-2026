@@ -1,0 +1,217 @@
+---
+title: "ps2_Filiposki.N"
+author: "Nikolina Filiposki"
+date: "2026-07-22"
+output:
+  pdf_document:
+    toc: yes
+  html_document:
+    toc: true
+    toc_float: true
+    css: css/lab.css
+header-includes:
+   - \usepackage[default]{sourcesanspro}
+   - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# First we define which packages needed for our analysis and assign it to 
+# the p_needed object. 
+p_needed <-
+  c("tidyverse",
+    "stringr",
+    "forcats",
+    "readxl",
+    "stargazer")
+
+# Now check which packages are already installed on the computer.
+# The function installed.packages() returns a vector with all the installed 
+# packages.
+
+packages <- rownames(installed.packages())
+
+# Then check which of the packages needed are not installed on the
+# computer yet. Essentially we compare the vector p_needed with the vector
+# packages. The result of this comparison is assigned to p_to_install.
+p_to_install <- p_needed[!(p_needed %in% packages)]
+
+# If at least one element is in p_to_install then install those missing
+# packages.
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+
+# Now that all packages are installed on the computer, load them for
+# this project. Additionally the expression returns whether the packages were
+# successfully loaded.
+sapply(p_needed, require, character.only = TRUE)
+
+# This is an option for stargazer tables
+#stargazer_opt <- ifelse(knitr::is_html_output(), "html")
+# "latex"
+```
+
+
+## 3.1
+
+# a
+The standard error (SE) is a measure of uncertainty describing how much an estimate differs over all possible random assignments that could happen. In comparison, the standard deviation indicates how much the individual observations differ from their mean. The SE is therefore often also referred to as the standard deviation of the sampling distribution.
+
+# b
+
+Randomization inference (RI) is often used to test the sharp null hypothesis of no effect for any subject. First, we formulate the null hypothesis and set out the alternative hypothesis. We then establish the reference distribution of a test statistic over all random assignments that could happen under the null hypothesis, or at least over a large number of them.
+
+We then compare the observed test statistic with this reference distribution and calculate what proportion of the possible test statistics are at least as extreme as the observed one. This proportion is the p-value. We compare the p-value with a threshold $\alpha$ and reject the null hypothesis if $p<\alpha$.
+
+This is similar to the parametric way of doing statistical analysis, but importantly, the source of the distribution is different. In RI, the reference distribution comes from the random assignment mechanism rather than from an assumed theoretical probability distribution.
+
+# c
+
+A 95% confidence interval (CI), in the frequentist way, means that if the same procedure were repeated many times, approximately 19 out of 20 confidence intervals would contain the true parameter. It does not mean that one particular calculated confidence interval has a 0.95 probability of containing the true average treatment effect (ATE). The true ATE is fixed, while the confidence intervals would differ over repeated samples or random assignments.
+
+For example, at the British Bake Off, many talented bakers are partaking. It might not happen often that one of them forgets a cake in the oven, but humans can fail. If the British Bake Off were hypothetically repeated forever, some cakes would still burn in the oven. Similarly, a method that produces 95% confidence intervals will usually capture the true parameter, but in about 5% of repeated cases, the interval will fail to include it. 
+
+# d 
+
+Complete random assignment differs from block random assignment and cluster random assignment.
+
+Complete random assignment means that a fixed number of subjects is assigned to the treatment group and the remaining subjects are assigned to the control group. Every possible assignment with this fixed number of treated subjects has the same probability of being selected.
+
+Block random assignment means that subjects are first divided into groups, or blocks, based on relevant background characteristics. Random assignment then takes place separately within each block. For example, students could first be divided according to their previous political interest, and students within each group would then be randomly assigned to treatment or control. This helps make the treatment and control groups more comparable with regard to the blocking variable.
+
+Cluster random assignment means that whole groups are assigned to treatment or control. For example, a whole school class might receive a treatment while another school class is assigned to the control group because it might not be possible to give individual students within the same class a different curriculum.
+
+# e
+
+Balanced designs assign the same or approximately the same number of subjects to the treatment and control groups. Their desired statistical property is greater precision because, for a fixed sample size, equal group sizes usually reduce the variance and standard error of the estimated treatment effect.
+
+This leads to more precise estimates, narrower confidence intervals, and higher statistical power. However, a balanced design does not automatically mean that both groups have exactly the same background characteristics.
+
+
+## 5
+
+# a
+ 
+Table
+
+| Village | $Y_i(0)$ | $Y_i(1)$ | $\tau_i$        |
+| :-----: | :----: | :---------: | :-------------: |
+|    1    |  10   |     15     |  5   | 
+| | | | | |
+|    2    |  15   |     15     |  0   |           
+| | | | | |
+|    3    |  20   |     30     |  10  |
+| | | | | |
+|    4    |  20   |     15     |  -5  |  
+| | | | | |
+|    5    |  20   |     20     |  10  | 
+| | | | | |
+|    6    |  15   |     15     |  0   |  
+| | | | | |
+|    7    |  15   |     30     |  15  |  
+| | | | | |
+| Average |  15   |     20     |   5  |  
+| | | | | |
+
+The individual treatment effect is calculated as
+
+$\tau_i=Y_i(1)-Y_i(0).$
+
+The true average treatment effect is therefore
+
+$\text{ATE}=\frac{1}{7}\sum_{i=1}^{7}\tau_i$
+
+$=\frac{1}{7}(5+0+10-5+0+0+15)$
+
+$=\frac{25}{7}\approx 3.57.$
+
+Assuming that exactly one village is randomly assigned to the treatment group, there are seven possible randomization. For each randomization, the estimated difference in means is
+
+$\hat{\tau}=\bar{Y}{T}-\bar{Y}{C},$
+
+where $\bar{Y}{T}$ is the observed outcome of the treated village and $\bar{Y}{C}$ is the average observed outcome of the six control villages.
+
+If Village 1 is treated:
+
+$\hat{\tau}_1=15-\frac{15+20+20+20+15+15}{6}$
+
+$=15-\frac{105}{6}$
+
+$=15-17.5=-2.5.$
+
+If Village 2 is treated:
+
+$\hat{\tau}_2=15-\frac{10+20+20+20+15+15}{6}$
+
+$=15-\frac{100}{6}$
+
+$=15-16.67\approx -1.67.$
+
+If Village 3 is treated:
+
+$\hat{\tau}_3=30-\frac{10+15+20+20+15+15}{6}$
+
+$=30-\frac{95}{6}$
+
+$=30-15.83\approx 14.17.$
+
+If Village 4 is treated:
+
+$\hat{\tau}_4=15-\frac{10+15+20+20+15+15}{6}$
+
+$=15-\frac{95}{6}$
+
+$=15-15.83\approx -0.83.$
+
+If Village 5 is treated:
+
+$\hat{\tau}_5=20-\frac{10+15+20+20+15+15}{6}$
+
+$=20-\frac{95}{6}$
+
+$=20-15.83\approx 4.17.$
+
+If Village 6 is treated:
+
+$\hat{\tau}_6=15-\frac{10+15+20+20+20+15}{6}$
+
+$=15-\frac{100}{6}$
+
+$=15-16.67\approx -1.67.$
+
+If Village 7 is treated:
+
+$\hat{\tau}_7=30-\frac{10+15+20+20+20+15}{6}$
+
+$=30-\frac{100}{6}$
+
+$=30-16.67\approx 13.33.$
+
+The seven possible estimated differences in means are therefore
+
+$-2.5,;-1.67,;14.17,;-0.83,;4.17,;-1.67,;13.33.$
+
+
+
+# b 
+
+The average of these estimates is the true ATE because the difference-in-means estimator is unbiased under random assignment.
+
+The average of the seven estimates is
+
+$\frac{1}{7}\sum_{j=1}^{7}\hat{\tau}_j$
+
+$=\frac{1}{7}(-2.5-1.67+14.17-0.83+4.17-1.67+13.33)$
+
+$\approx\frac{25}{7}$
+
+$\approx 3.57.$
+
+This is equal to the true average treatment effect:
+
+$\text{ATE}=\frac{1}{7}\sum_{i=1}^{7}\left(Y_i(1)-Y_i(0)\right)=\frac{25}{7}\approx 3.57.$
+
+The individual estimated difference in means can differ greatly depending on which village is randomly assigned to treatment. For example, treating Village 1 gives an estimate of $-2.5$, while treating Village 3 gives an estimate of approximately $14.17$. However, when we average the estimates over all seven possible random assignments, the positive and negative estimation errors balance each other out and the average estimate equals the true ATE.
