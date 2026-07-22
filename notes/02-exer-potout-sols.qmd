@@ -92,7 +92,7 @@ $$\tau_G \mathbf{= 20-40 = -20}$$
 
 6.  What is the true treatment effect of the new registration system in Village L?
 
-$$\tau_G \mathbf{= 80-80 = 0}$$
+$$\tau_L \mathbf{= 80-80 = 0}$$
 
 
 \vspace{.1in}

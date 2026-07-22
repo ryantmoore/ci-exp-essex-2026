@@ -1,7 +1,5 @@
 ## RI Hypothesis Tests and Confidence Intervals
 ## Ryan T. Moore
-## First: 2017-07-06
-## Last: 2024-07-23
 
 # Preliminaries -----------------------------------------------------------
 

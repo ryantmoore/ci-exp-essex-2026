@@ -168,7 +168,7 @@ Calculate $E(\text{Ideology} | \text{Dem} = 0)$
 
 \pause 
 
-$$3 \cdot \frac{0.4}{0.6} + 1 \cdot \frac{0.2}{0.6} = \frac{8}{3}$$
+$$3 \cdot \frac{0.4}{0.6} + 1 \cdot \frac{0.2}{0.6} = \frac{7}{3}$$
 
 ## Unbiasedness
 
@@ -611,7 +611,7 @@ $\square \blacksquare \blacksquare \square \square$ \quad $\square \square \squa
 	\item What was $P(X \geq 1 | \text{no ESP})$?  \pause $\frac{7}{10} = 0.7$ \pause 
 	\item What is ``prob result at least this extreme, given model of no effect\text{''}?  \pause 
 	\item Definition of $p$-value! \pause 
-	\item Valid, exact, with no distributional assumption, no large $n$.  \pause
+	\item Valid, exact, with no distributional assumption, no large $n$  \pause
 	\item {\it Randomisation} creates dist'n of possible numbers correct 
 \end{itemize}
 
@@ -1001,6 +1001,13 @@ Create RI confidence ints (``invert the randomisation test\text{''}):
 >- If not, then $\tau^*$ is in CI
 >- CI consists of set of $\tau^*$ not unusual, given data
 >- See `02-ri-resume-donate.R`
+
+## Additional Resources
+
+\large
+
+- https://methods.egap.org/guides/analysis-procedures/randomization-inference_en.html
+- https://dimewiki.worldbank.org/Randomization_Inference
 
 
 ***
