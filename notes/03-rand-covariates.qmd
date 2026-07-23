@@ -194,6 +194,7 @@ $$T_i \sim \text{Bern}(\pi)$$
 $$SE(\widehat{ATE}) = \sqrt{\frac{1}{N-1} \left[ \frac{m \mathrm{Var}(Y_i(0))}{N-m} + \frac{(N-m)\mathrm{Var}(Y_i(1))}{m} +
 2\mathrm{Cov}(Y_i(0), Y_i(1)) \right]}$$
 
+\pause
 \large
 
 - If $\mathrm{Var}(Y_i(0)) = \mathrm{Var}(Y_i(1))$, allocate units equally.  \pause
@@ -281,7 +282,7 @@ What _would have_ happened to "No" precincts if "Yes"?
 What would have happened under _other_ conditions?
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \Large
 Suppose we can know both _potential outcomes_ \ldots
@@ -292,7 +293,7 @@ Suppose we can know both _potential outcomes_ \ldots
 
 \begin{center}
 \begin{tabular}{ccccc}
-&&& Enroll \% & Enroll \% \\
+&&& Enrol \% & Enrol \% \\
 Precinct & Party & Canvass? & if No Canvass & if Canvass   \\ \hline
 1 & Dem & $\_$ & 20 & 60 \\
 2 & Dem & $\_$ & 30 & 70 \\
@@ -311,7 +312,7 @@ $\text{ATE} = 50-25=25$
 (True or an estimate?)
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \Large
 Another way to think about same information:
@@ -322,7 +323,7 @@ Another way to think about same information:
 
 \begin{center}
 \begin{tabular}{cccccc}
-&&& Enroll \% & Enroll \% & \alert{True Precinct} \\
+&&& Enrol \% & Enrol \% & \alert{True Precinct} \\
 Precinct & Party & Canvass? & if No Canvass & if Canvass & \alert{Effect}  \\ \hline
 1 & Dem & $\_$ & 20 & 60 & \alert{40}\\
 2 & Dem & $\_$ & 30 & 70 & \alert{40} \\
@@ -352,7 +353,7 @@ We can't observe both _potential outcomes_ (_counterfactuals_).
 So, how can we get a good causal estimate?
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \large
 Suppose we observe \ldots
@@ -361,7 +362,7 @@ Suppose we observe \ldots
 
 \begin{center}
 \begin{tabular}{ccccc}
-&&& Enroll \% & Enroll \% \\
+&&& Enrol \% & Enrol \% \\
 Precinct & Party & Canvass? & if No Canvass & if Canvass   \\ \hline
 1 & Dem & Yes &  & 60 \\
 2 & Dem & Yes &  & 70 \\
@@ -377,7 +378,7 @@ $\text{Estimated ATE} = 65-25 = 40$  \pause  $\quad$ \frownie $\quad$ (too big)
 
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \large
 Or, we could have observed \ldots
@@ -387,7 +388,7 @@ Or, we could have observed \ldots
 
 \begin{center}
 \begin{tabular}{ccccc}
-&&& Enroll \% & Enroll \% \\
+&&& Enrol \% & Enrol \% \\
 Precinct & Party & Canvass? & if No Canvass & if Canvass   \\ \hline
 1 & Dem & Yes &  & 60 \\
 2 & Dem & No & 30 &  \\
@@ -402,7 +403,7 @@ Precinct & Party & Canvass? & if No Canvass & if Canvass   \\ \hline
 $\text{Estimated ATE} = 45-30 = 15$ \pause $\quad$ \frownie $\quad$ (too small; closer)
 
 
-## Example: Canvassing and Enrollment
+## Example: Canvassing and Enrolment
 
 \Large
 In our random allocation, possible data were
@@ -458,7 +459,7 @@ Creating pre-treatmnt groups that look same on _predictors_.   \pause
 
 \begin{center}
 \begin{tabular}{ccccc}
-&&& Enroll \% & Enroll \% \\
+&&& Enrol \% & Enrol \% \\
 Precinct & Party & Canvass? & if No Canvass & if Canvass   \\ \hline
 1 & \color{blue}{Dem} & \only<4>{Y} &  & \only<4>{60} \\
 2 & {\color{blue}Dem} & \only<4>{N} & \only<4>{30} &  \\
@@ -609,6 +610,8 @@ Further,
 && \underbrace{\Delta_{T_X}}_{\text{treatment imbalance from obs}} + \underbrace{\Delta_{T_U}}_{\text{treatment imbalance from unobs}}
 \end{eqnarray*}
 
+\pause
+
 Blocking controls $\Delta_{T_X}$\pause, and, to the degree correlated, $\Delta_{T_U}$.           
             
 ## Usual Blocking
@@ -670,7 +673,7 @@ mat_dist |> round(2)
 >- Optimal: consider all blockings; pick best.  
 (High-order problem)
 >- Optimal-greedy: consider all distances, pick best. 
->- Naive greedy: Get best block for this unit now.
+>- Naïve greedy: Get best block for this unit now.
 
 
 ## Which Multivariate Blocking Algorithm? (optimal greedy)
@@ -762,7 +765,7 @@ $X_3 \sim \chi^2_2$; 1000 such experiments.  Assg treatmnt in 3 ways.  $p$-value
   
 # Applications: Seguro Popular, Perry Preschool, Ignatieff Campaign
 
-## Experiment: Randomized Health Infrastructure & Insurance
+## Experiment: Randomised Health Infrastructure & Insurance
 @kingakima09
   
 <!-- Thus, MOTIVATION for USING INFO as EFFIC. as possible.  \\ -->
@@ -782,15 +785,12 @@ $X_3 \sim \chi^2_2$; 1000 such experiments.  Assg treatmnt in 3 ways.  $p$-value
 <!-- %  \item {\bf Premiums}: \$0 for bottom 2 income deciles, low otherwise -->
 <!-- %GK  \item Mexican Health Policy: centralized $\rightsquigarrow$ -->
 <!-- %GK    decentralized $\rightsquigarrow$ \alert{stewardship} -->
-
 - **Cost** 2005 full $+1\%$ GDP new money annually
-
 <!-- %  \item Cost when fully implemented: additional 1\% of GDP $(5.6\% \to 6.6\%)$ -->
-
 - One of **largest** health reforms of any country in 2
     decades
 - Most **visible** accomplishment of Fox administration
-- Major **issue** 2006 pres. campaign (vote choice effect: 7-11\%) 
+- Major **issue** 2006 pres. campaign (vote choice effect: 7-11\% for PAN) 
 
 <!-- % to Calderon)  -->
 <!-- %esp. urban, dual enrollees more -->
@@ -800,7 +800,7 @@ $X_3 \sim \chi^2_2$; 1000 such experiments.  Assg treatmnt in 3 ways.  $p$-value
 <!-- % etc. (Poire: MNLogit) -->
 <!-- %\item {\it Seguro Popular}: \$800 million new health spending -->    <!-- %\item Major domestic leg. of Fox admin -->
 
-- **Randomized** 74/148 health clusters to first roll-out, infrastructure spending, encouragement to enroll
+- **Randomised** 74/148 health clusters to first roll-out, infrastructure spending, encouragement to enroll
 - But -- do **better** than pure coin flip
 
     
