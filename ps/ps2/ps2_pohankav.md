@@ -10,7 +10,9 @@ The standard error is a measure of uncertainty of an estimated statistic, or the
 
 
 ### Exercise 3.5
-a) | Treated village| estimated ATE| 
+a) 
+
+| Treated village| estimated ATE| 
 |----------|----------|
 | Village 1  | -0.8333333   | 
 | Village 2    | 0| 
