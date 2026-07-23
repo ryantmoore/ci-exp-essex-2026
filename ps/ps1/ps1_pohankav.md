@@ -4,6 +4,8 @@
 
 ### Exercise 2.1.
 
+$$SE = \frac{1}{J} \sum_{1}^{J}(Θ_j - Θ)^2}$$ 
+
 a)  Y~i~(0) denotes the potential outcome for unit i under the control condition/ when d = 0, that is the untreated potential outcome.
 
 b)  Y~i~(0) \| D~i~ = 1 refers to the untreated potential outcome for unit i that would be treated under a hypothetical allocation of treatments, while Y~i~(0) \| d~i~ = 1 is the untreated potential outcome for a unit that actually received treatment in a study. So D~i~ denotes treatment status in a hypothetical allocation while d~i~ denotes actually observed treatment status.
