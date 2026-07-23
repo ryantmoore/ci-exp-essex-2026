@@ -1325,8 +1325,18 @@ Other arguments to `block()`
 \item {\tt seed}: (for {\tt mcd} and {\tt mve})
 \end{itemize}
 
+## A Note on Attrition
 
-    
+\large
+
+>- If one unit attrites (no outcomes available), consider "pairwise deletion estimator" (PDE)
+>- Unit-wise deletion biased under non-ignorable attrition
+>- PDE _can_ also be biased, but 
+>    - More efficient than unitwise
+>    - Variance estimator unbiased
+>    - Easier to interpet as causal
+>- See, e.g., @fukumoto22
+
 <!-- %\frametitle{Adding Genetic Search to Blocking Improves Balance}  -->
 <!-- %\framesubtitle{{\tt x100}: 35\% and 16\% Improvement} -->
 
@@ -1709,10 +1719,10 @@ If blocks used to randomise, incorporate into RI.
 \begin{center}
 Next:\\
 Clustered Designs, Regression and Experiments\\
-PS3 due Monday
+PS3 due today
 
 \end{center}
 
 ## References {.allowframebreaks}
 
-\small
+\footnotesize
