@@ -1,0 +1,60 @@
+---
+title: "Problem Set 1"
+subtitle: "Causal Inference and Experiments in the Social Sciences"
+author: "Thales Souza Lima"
+date: today
+format:
+  pdf:
+    documentclass: article
+    geometry:
+      - margin=1in
+    number-sections: false
+    keep-tex: false
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+# Exercise 3.1
+
+a\) The standard deviation measures the variation of the observed data around the sample mean. The standard error measures the variation of a sample estimate across repeated samples and therefore indicates the precision of that estimate.
+
+b\) You assume that the outcomes are equal before and pre treatment, meaning that there was no casual effect. By randomizing, we are able to calculate the ATE and test weather it is significant or not compared the data itself (no parametrization on the outcome). The observed differences are compared with this distribution. The p-value is the proportion of assignments that produce a statistic at least as big as the observed one.
+
+c\) If you sample the distribution 20 times, 19 out of 20 times you get the true number inside the same interval.
+
+d\) Complete random assignment is when you randomly choose the individuals, no matter their characteristics. Block assignment is when you have some common characteristic (sex, for exmaple) that you want to make evident, so you diminish the probability of biased sampling. Cluster is when you also take sub samples of the data and this whole group works like and individual and is treated in relation to another whole group.
+
+e\) They minimize variance (and bias).
+
+# Exercise 3.5
+
+a\)
+
+| Treated village | Estimated ATE |
+|:----------------|--------------:|
+| Village 1       |        -0.833 |
+| Village 2       |         0.000 |
+| Village 3       |        15.833 |
+| Village 4       |         0.833 |
+| Village 5       |         4.167 |
+| Village 6       |         0.000 |
+| Village 7       |        15.000 |
+
+b\) The mean is 5, which is equal to the original one.
+
+# 
