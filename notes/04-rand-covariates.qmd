@@ -1708,8 +1708,8 @@ If blocks used to randomise, incorporate into RI.
 
 \begin{center}
 Next:\\
-Regression and Experiments\\
-PS3 due 
+Clustered Designs, Regression and Experiments\\
+PS3 due Monday
 
 \end{center}
 
