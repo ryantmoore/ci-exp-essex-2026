@@ -1,0 +1,52 @@
+---
+title: "Problem Set 2"
+author: "Wannes De Meyer"
+date: "2026-07-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exercise 3.1 (Gerber & Green, 2012)
+
+#### Important concepts
+
+#### (a) What is a standard error? What is the difference between a standard error and a standard deviation?
+
+The standard error is the standard deviation of a sampling distribution. This distribution is composed of the estimates of all possible randomizations. Then the standard deviation is calculated from this distribution. The standard deviation is thus a more general term than the standard error. It is the square root of the mean of the squared distance of each case from the mean.
+
+#### (b) How is randomization inference used to test the sharp null hypothesis of no effect for any subject?
+
+The sharp null hypothesis states that there is no treatment effect for any case. Using this, we can calculate the hypothetical values of $Y_i(0)$ and $Y_j(1)$ for those cases for which the opposite was observed, since they would be the same under the sharp null hypothesis. Then, using the same randomization mechanic as used to truly sample the treated units, we can calculate the estimated treatment effect for each possible randomization (or at least a very considerable amount of them in case of near infinite possible randomizations). This way, we can construct a distribution of possible estimated treatment effect under the null hypothesis and calculate the p-value (one- or two-sided) of our observed estimated treatment effect in this distribution. If the treatment effect has a p-value of less than .05 (or any other cutoff point that you decided on), we can reject the sharp null hypothesis of no treatment effect.
+
+#### (c) What is a 95% confidence interval?
+
+The 95% confidence interval has the property that it has a 95% probability of containing the true average treatment effect.
+
+#### (d) How does complete random assignment differ from block random assignment and cluster random assignment?
+
+Complete random assignment just randomly assigns cases to the treatment or not within the whole sample, while block random assignment first divides people into blocks (or strata) and then does complete random assignment within these blocks. Cluster random assignment does not assign at the individual level, but completely randomly assigns clusters of individuals to the treatment or not. \#### (e) Experiments that assign the same number of subjects to the treatment group and control group are said to have a "balanced design". What are some desirable statistical properties of balanced designs?
+
+Balanced designs have the advantage that confidence intervals will tend to be not too narrow, especially if there are differences in how variable the two groups are.
+
+# Exercise 3.5 (Gerber & Green, 2012)
+
+#### Using Table 2.1, imagine that your experiment allocates one village to treatment.
+
+#### (a) Calculate the estimated difference-in-means for all seven possible randomizations.
+
+- Village 1 treated: $\dfrac{15}{1}-\dfrac{15+20+20+10+15+15}{6}=-0,83$
+- Village 2 treated: $\dfrac{15}{1}-\dfrac{10+20+20+10+15+15}{6}=0$
+- Village 3 treated: $\dfrac{30}{1}-\dfrac{10+15+20+10+15+15}{6}=15,83$
+- Village 4 treated: $\dfrac{15}{1}-\dfrac{10+15+20+10+15+15}{6}=0,83$
+- Village 5 treated: $\dfrac{20}{1}-\dfrac{10+15+20+20+15+15}{6}=4,17$
+- Village 6 treated: $\dfrac{15}{1}-\dfrac{10+15+20+20+10+15}{6}=0$
+- Village 7 treated: $\dfrac{30}{1}-\dfrac{10+15+20+20+10+15}{6}=15$
+
+#### (b) Show that the average of these estimates is the true ATE.
+
+$ATE=\dfrac{15+15+30+15+20+15+30}{7}-\dfrac{10+15+20+20+10+15+15}{7}=5$
+
+$\overline{\widehat{ATE}}_j=\dfrac{-0,83+0+15,83+0,83+4,17+0+15}{7}=5$
