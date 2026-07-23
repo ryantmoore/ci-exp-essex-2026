@@ -1,0 +1,26 @@
+﻿1.
+a. What is standard error? What is the difference between a standard error and standard deviation?
+* Standard error is to measure how much deviation there is from the sampling distribution. Which helps measure the accuracy of a statistical estimate. It differs from the standard deviation which measures the spread of individual data points around a mean. 
+b. How is randomization inference used to test the sharp null hypothesis of no effect for any subject?
+* Randomized inference can be used to observe both Y(0) and Y(1) for each observation to be able to test the sharp null hypothesis that the treatment effect is zero for all observations. This then creates a sampling distribution of the estimated average treatment effects under the sharp null hypothesis.
+c. How does complete random assignment differ from block random assignment and cluster random assignment?
+* Block random assignment is when participants are divided into subgroups and then random assignment occur within each group (5 men and 5 women are picked to each experimental condition). Cluster random assignment is when a large group of people are placed as a group into either condition (1 city is designated as treatment and the other as control). Complete random assignment is when each individual is randomly assigned to either condition. 
+d. Experiments that assign the same number of subjects to the treatment group and control group are said to have a “balanced design”. What are some desirable statistical properties of balanced designs?
+* When there is a same number of subjects to treatment and control groups, it could create confidence intervals that are too wide or narrow. 
+
+
+5. table 2.1
+a.  Calculate the estimated difference-in-means for all seven possible randomizations
+* We know its 7 combinations cause 7!/6!= 7/1=7
+   * Choose (4870, 8/2)
+* The sum of all controls is 10+15+20+20+10+15+25=105
+* Observed treated outcome=15
+* V1: 15-(105-10)/6 = 15.83
+* V2: 15-(105-15)/6=0
+* V3: 30-(105-20)/6=15.83
+* V4: 15-(105-20)6=0.83
+* V5: 20-(105-10)/6=4.17
+* V6: 15-(105-15)/6=0
+* V7: 30-(105-15)/6=15
+b. Show that the average of these estimates is the true ATE.
+(15+15.83+0+15.83+0.83+4.17+0+15)/7 = 5 ish
