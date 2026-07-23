@@ -1,0 +1,167 @@
+---
+title: "ps3_Filiposki.N"
+author: "Nikolina Filiposki"
+date: "2026-07-22"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    css: css/lab.css
+  pdf_document:
+    toc: yes
+header-includes:
+   - \usepackage[default]{sourcesanspro}
+   - \usepackage[T1]{fontenc}
+mainfont: SourceSansPro
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+# First we define which packages needed for our analysis and assign it to 
+# the p_needed object. 
+p_needed <-
+  c("tidyverse",
+    "stringr",
+    "forcats",
+    "readxl",
+    "stargazer")
+
+# Now check which packages are already installed on the computer.
+# The function installed.packages() returns a vector with all the installed 
+# packages.
+
+packages <- rownames(installed.packages())
+
+# Then check which of the packages needed are not installed on the
+# computer yet. Essentially we compare the vector p_needed with the vector
+# packages. The result of this comparison is assigned to p_to_install.
+p_to_install <- p_needed[!(p_needed %in% packages)]
+
+# If at least one element is in p_to_install then install those missing
+# packages.
+if (length(p_to_install) > 0) {
+  install.packages(p_to_install)
+}
+
+# Now that all packages are installed on the computer, load them for
+# this project. Additionally the expression returns whether the packages were
+# successfully loaded.
+sapply(p_needed, require, character.only = TRUE)
+
+# This is an option for stargazer tables
+#stargazer_opt <- ifelse(knitr::is_html_output(), "html")
+# "latex"
+```
+
+
+## 3.5
+
+# c 
+
+Show that the standard deviation of the seven estimates is identical to the error implied by equation 
+
+
+$SE(\widehat{ATE})=\sqrt{\frac{1}{N-1}\{\frac{mVar(Y_i(0))}{N-m}+\frac{(N-m)Var(Y_i(1))}{m}+ 2Cov(Y_i(0),Y_i(1))\}}.$
+
+
+This time correct table :)
+
+| Treated village | $Y_i(1)$ | $Y_i(0)$ | Treatment effect | Control mean | Difference in means |
+|----|----|----|----|----|----|
+| 1 | 15 | 10 | 5 | 95/6=15.833 | −0.833 |
+| 2 | 15 | 15 | 0 | 90/6=15 | 0 |
+| 3 | 30 | 20 | 10 | 85/6=14.167 | 15.833 |
+| 4 | 15 | 20 | -5 | 85/6=14.167 | 0.833 |
+| 5 | 20 | 10 | 10 | 95/6=15.833 | 4.167 |
+| 6 | 15 | 15 | 0 | 90/6=15 | 0 |
+| 7 | 30 | 15 | 15 | 90/6=15 | 15 |
+
+I messed up at village 5 yesterday while copying the table from the book...
+
+
+```{r, setup-villages-correct}
+# Potential outcomes for the seven villages
+Y0 <- c(10, 15, 20, 20, 10, 15, 15) #10 not 20 
+Y1 <- c(15, 15, 30, 15, 20, 15, 30)
+
+# Total number of villages
+N <- length(Y0)
+
+# Exactly one village is assigned to treatment
+m <- 1
+
+# Number assigned to control
+N_minus_m <- N - m
+```
+
+```{r, calculate-ate-estimates}
+ATE_hat <- numeric(N)
+
+for (i in 1:N) {
+  
+  # Village i receives treatment
+  treated_outcome <- Y1[i]
+  
+  # All other villages receive control
+  control_outcomes <- Y0[-i]
+  
+  # Difference in means
+  ATE_hat[i] <- treated_outcome - mean(control_outcomes)
+}
+
+ATE_hat
+```
+```{r, average-estimates}
+mean(ATE_hat)
+```
+```{r, calculate-sd}
+SD_ATE_hat <- sqrt(
+  mean((ATE_hat - mean(ATE_hat))^2)
+)
+
+SD_ATE_hat
+```
+
+```{r,calculate-variances}
+Var_Y0 <- mean((Y0 - mean(Y0))^2)
+Var_Y1 <- mean((Y1 - mean(Y1))^2)
+
+Var_Y0
+Var_Y1
+```
+```{r, calculate-covariance}
+Cov_Y0_Y1 <- mean(
+  (Y0 - mean(Y0)) *
+  (Y1 - mean(Y1))
+)
+
+Cov_Y0_Y1
+```
+```{r, calculate-se}
+SE_formula <- sqrt(
+  1 / (N - 1) * (
+    m * Var_Y0 / (N - m) +
+    (N - m) * Var_Y1 / m +
+    2 * Cov_Y0_Y1
+  )
+)
+
+SE_formula
+```
+```{r, compare-results}
+SD_ATE_hat
+SE_formula
+
+all.equal(SD_ATE_hat, SE_formula)
+```
+
+# d 
+
+This experimental design has more sampling variability than a design in which two villages out of seven are assigned to treatment. With only one treated village, the estimate depends strongly on which village is selected. Assigning two villages to treatment makes the design more balanced and the estimate more precise.
+
+# e 
+
+In this example, assigning one of seven villages to treatment has more sampling variability than assigning six villages to treatment. This is because the treatment outcomes vary more than the control outcomes, so using more villages in the treatment group increases precision.
+
+
