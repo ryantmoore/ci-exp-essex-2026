@@ -1,0 +1,66 @@
+---
+title: "ps2_Zeyu"
+author: "Zeyu(Zey)"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## PS 2
+
+### 3.1
+
+(a) What is a standard error? What is the difference between a standard error and a standard deviation?
+
+Standard error is the standard deviation of the sampling distribution. It measures how much the estimated statistic is expected to vary across repeated random samples.
+
+Standard deviation measures the variability of individual observations within a sample or population.
+
+(b) How is randomization inference used to test the sharp null hypothesis of no effect for any subject?
+
+1.  First, assume the sharp null is true.
+
+2.  Calculate a test statistic (e.g., the difference in means) for the observed assignment.
+
+3.  Generate the distribution of the test statistic under all possible (or many randomly sampled) treatment assignments.
+
+4.  Compare the observed statistic with this randomization distribution to get the p-value. If the observed statistic is very unlikely under the randomization distribution, we reject the sharp null hypothesis.
+
+(c) What is a 95% confidence interval?
+
+A 95% confidence interval is an interval constructed from sample data using a procedure that, over repeated random samples, would contain the true population parameter 95% of the time.
+
+(d) How does complete random assignment differ from block random assignment and cluster random assignment?
+
+Complete random assignment randomly assigns individual subjects to treatment or control without considering any subject characteristics.
+
+Block random assignment first groups subjects into homogeneous blocks based on characteristics (e.g., gender or age), and then randomly assigns treatment within each block.
+
+Cluster random assignment randomly assigns entire groups, such as schools or villages, rather than individuals.
+
+(e) Experiments that assign the same number of subjects to the treatment group and control group are said to have a "balanced design." What are some desirable statistical properties of balanced designs?
+
+Maximize statistical power for a given total sample size.
+Minimize the variance (or standard error) of the estimated treatment effect.
+Produce more precise estimates and narrower confidence intervals.
+
+### 3.5
+
+(a) Calculate the estimated difference-in-means for all seven possible randomizations.
+
+| Treated village | (Y(1)) | (Y(0)) | Treatment effect | Control mean | Difference in means |
+|----|----|----|----|----|----|
+| 1 | 15 | 10 | 5 | 95/6=15.833 | −0.833 |
+| 2 | 15 | 15 | 0 | 90/6=15 | 0 |
+| 3 | 30 | 20 | 10 | 85/6=14.167 | 15.833 |
+| 4 | 15 | 20 | -5 | 85/6=14.167 | 0.833 |
+| 5 | 20 | 10 | 10 | 95/6=15.833 | 4.167 |
+| 6 | 15 | 15 | 0 | 90/6=15 | 0 |
+| 7 | 30 | 15 | 15 | 90/6=15 | 15 |
+
+(b) Show that the average of these estimates is the true ATE.
+
+$$ATE=\frac{1}{N}\sum_{i=1}^{n}​(Yi​(1)−Yi​(0))=\frac{5+0+10-5+10+0+15}{7}=5$$
+
+While mean of difference-in-means is:
+
+$$\frac{-0.833+0+15.833+0.833+4.167+0+15}{7}=5$$
