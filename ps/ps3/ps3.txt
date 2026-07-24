@@ -1,0 +1,12 @@
+﻿5. 
+c. show that the standard deviation of the seven estimates is identical to the standard error implied by equation
+* ate is 5
+* Sum of squared deviations: 
+   * (5-5)^2 + (0-5)^2 + (10-5)^2 + (-5-5)^2 + (10-5)^2 + (0-5)^2 + (15-5)^2 = 0 +25 +25 +100+ 25 + 25 + 100 = 300
+* Square root of average squared deviation (sample variance) = sq(300/(7-1)) = 7.07
+* Standard error of estimated average treatment effect
+   * sq(50/7)=7.14 
+d. Referring to equation 3.4, explain why this experimental design has more sampling variability than the design in which two villages out of assigned treatment
+* Increasing the number of selected villages from 1 to 2 increases the m which increases the denominator for Var(Yi(0)) while also decreasing the denominator for Var(Yi(1)). This allows a decrease in standard error.
+e. Explain why, in this example a design in which one of seven observations is assigned to treatment has more sampling variability than a design in which six villages out of seven are assigned to treatment.
+* Same concept as above.
