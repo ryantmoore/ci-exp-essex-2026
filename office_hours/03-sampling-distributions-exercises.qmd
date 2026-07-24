@@ -1,0 +1,195 @@
+---
+title: "Sampling Distributions and Statistical Inference: Chapter 3 Exercises"
+format: html
+editor:
+  markdown:
+    wrap: 72
+---
+
+These solutions work through Exercises 3.1, 3.5(a), and 3.5(b) from
+Chapter 3 (Gerber & Green, *Field Experiments*).
+
+## Exercise 3.1: Important Concepts
+
+### 3.1(a)
+
+> **What is a standard error? What is the difference between a standard
+> error and a standard deviation?**
+
+A **standard error** is the standard deviation of a *sampling
+distribution*. In the experimental context, it measures how much the
+estimated ATE would vary from one hypothetical random assignment to the
+next: it summarizes the spread of the estimates $\hat\theta_j$ across
+all $J$ possible randomizations,
+
+$$SE(\hat\theta) = \sqrt{\frac{1}{J}\sum_{j=1}^{J}\left(\hat\theta_j - \bar{\hat\theta}\right)^2}.$$
+
+$$SE=\frac{SD}{\sqrt{N}}$$
+
+A **standard deviation** describes the dispersion of a variable's values
+around their mean — it can be computed for any set of numbers (e.g., the
+potential outcomes of a group of subjects). For a variable $X$ with $N$
+values and mean $\bar X$,
+
+$$SD(X) = \sqrt{\frac{1}{N}\sum_{i=1}^{N}\left(X_i - \bar X\right)^2}.$$
+
+The distinction is about *what* is varying. A standard deviation
+describes variability in a set of data values; a standard error
+describes variability in an *estimate* (a statistic) across repeated
+samples or random assignments. A standard error is itself a standard
+deviation, but specifically the standard deviation of an estimator's
+sampling distribution. As such, the standard error typically shrinks as
+the sample size grows, whereas the standard deviation of the underlying
+outcomes does not.
+
+### 3.1(b)
+
+> **How is randomization inference used to test the sharp null
+> hypothesis of no effect for any subject?**
+
+The **sharp null hypothesis** states that the treatment effect is zero
+for *every* subject: $Y_i(1) = Y_i(0)$ for all $i$. Its great analytic
+convenience is that, if it is true, each unit's observed outcome equals
+*both* of its potential outcomes. That means the single dataset we
+observe constitutes the *complete* schedule of potential outcomes.
+
+Randomization inference exploits this. Under the sharp null we can:
+
+1.  Take the observed outcomes as fixed and known for every unit.
+2.  Enumerate (or randomly sample) all possible treatment assignments
+    that the experiment's randomization procedure could have produced.
+3.  For each hypothetical assignment, recompute the test statistic
+    (e.g., the estimated ATE), building up the sampling distribution of
+    that statistic *under the null*.
+4.  Compare the actually observed test statistic to this distribution.
+    The $p$-value is the proportion of hypothetical assignments that
+    yield a test statistic at least as extreme as the observed one (in
+    one tail for a one-sided test, in both tails for a two-sided test).
+
+Because it uses the exact set of possible randomizations, this method is
+*exact*: it makes no appeal to large-sample or normality approximations
+and applies to any sample size and any outcome type.
+
+### 3.1(c)
+
+> **What is a 95% confidence interval?**
+
+A **95% confidence interval** is a range of values constructed by a
+procedure that, over hypothetical replications of the experiment, would
+bracket the true parameter (here, the ATE) 95% of the time. If we
+imagine repeating the experiment under identical conditions and building
+an interval each time, about 95 out of every 100 such intervals would
+contain the true ATE.
+
+The key interpretive point is that the *interval* varies from one
+experiment to the next while the true ATE stays fixed. The 95% refers to
+the long-run coverage rate of the *procedure*, not to a probability that
+the true value lies inside any one realized interval.
+
+### 3.1(d)
+
+> **How does complete random assignment differ from block random
+> assignment and cluster random assignment?**
+
+All three are forms of random assignment, differing in the unit that is
+randomized and in any structure imposed on the randomization:
+
+| Design | How treatment is assigned |
+|:-----------------------------------|:-----------------------------------|
+| **Complete** | Exactly $m$ of the $N$ *individual* units are assigned to treatment, with every such allocation equally likely. No grouping. |
+| **Block** | Units are first partitioned into blocks (strata) of similar units; complete random assignment is then carried out *within each block*, fixing the number treated per block. |
+| **Cluster** | Whole pre-existing groups (clusters) are assigned as intact units; every member of a cluster shares the same treatment status. |
+
+Block assignment guarantees balance on the blocking variable and, when
+blocks group units with similar potential outcomes, tends to *reduce*
+sampling variability relative to complete assignment. Cluster assignment
+is often dictated by practical constraints and tends to *increase*
+sampling variability when units within a cluster have similar potential
+outcomes, because the effective number of independent units is the
+number of clusters rather than the number of individuals.
+
+### 3.1(e)
+
+> **Experiments that assign the same number of subjects to the treatment
+> group and control group are said to have a "balanced design." What are
+> some desirable statistical properties of balanced designs?**
+
+When the variances of the treated and untreated potential outcomes are
+similar, splitting the sample evenly ($m \approx N/2$) tends to
+**minimize the standard error** of the estimated ATE — allocating the
+observations equally is approximately optimal for precision in that
+case.
+
+A balanced design also simplifies and improves **interval estimation**.
+The method for constructing confidence intervals can produce intervals
+that are too wide or too narrow when one group is much larger than the
+other and the groups have unequal variances; equal group sizes eliminate
+this complication, so the estimated confidence intervals behave well. In
+short, balanced designs generally deliver good precision and
+well-behaved uncertainty estimates without requiring advance knowledge
+of which group has more variable outcomes.
+
+## Exercise 3.5
+
+Both parts use the schedule of potential outcomes from Table 2.1, now
+imagining a design in which **one** village is assigned to treatment and
+the remaining six serve as control.
+
+```{r}
+#| message: false
+library(tidyverse)
+
+tab21 <- tibble(
+  village = 1:7,
+  Y0 = c(10, 15, 20, 20, 10, 15, 15),
+  Y1 = c(15, 15, 30, 15, 20, 15, 30)
+)
+
+tab21 |> mutate(tau = Y1 - Y0)
+```
+
+The true ATE is the average of the village-level effects:
+
+```{r}
+mean(tab21$Y1 - tab21$Y0)
+```
+
+### 3.5(a)
+
+> **Using Table 2.1, imagine that your experiment allocates one village
+> to treatment. Calculate the estimated difference-in-means for all
+> seven possible randomizations.**
+
+With $m = 1$ treated and $N - m = 6$ control, there are exactly
+$\binom{7}{1} = 7$ possible randomizations. For the randomization that
+treats village $i$, the estimated difference-in-means is the treated
+village's $Y_i(1)$ minus the average $Y(0)$ of the other six villages:
+
+$$\widehat{ATE}_i = Y_i(1) - \frac{1}{6}\sum_{j \neq i} Y_j(0).$$
+
+```{r}
+dim_one <- map_dbl(tab21$village, function(i) {
+  tab21$Y1[i] - mean(tab21$Y0[tab21$village != i])
+})
+
+tibble(treated_village = tab21$village, est_ATE = round(dim_one, 3))
+```
+
+The seven estimates range from about $-0.83$ (treating village 1) to
+about $15.83$ (treating village 3), a very wide spread relative to the
+true effect of 5.
+
+### 3.5(b)
+
+> **Show that the average of these estimates is the true ATE.**
+
+```{r}
+mean(dim_one)
+```
+
+The seven difference-in-means estimates average to exactly **5**, which
+equals the true ATE computed above. This confirms that the
+difference-in-means estimator is **unbiased** under random assignment:
+even though any single one-village randomization can be far from the
+truth (from $-0.83$ up to $15.83$), the estimates are correct *on
+average* across the randomization distribution.
