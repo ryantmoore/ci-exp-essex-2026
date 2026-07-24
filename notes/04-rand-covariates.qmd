@@ -1329,7 +1329,7 @@ Other arguments to `block()`
 
 \large
 
->- If one unit attrites (no outcomes available), consider "pairwise deletion estimator" (PDE)
+>- If one unit attrits (no outcomes available), consider "pairwise deletion estimator" (PDE)
 >- Unit-wise deletion biased under non-ignorable attrition
 >- PDE _can_ also be biased, but 
 >    - More efficient than unitwise
@@ -1421,7 +1421,7 @@ $s_j$  (Old M) & $-\frac{1}{4}$ & &  & & $\frac{2}{5}$
 \pause 
 
 \vspace{3mm} 
-\hspace{30mm} \color{red}{(bias toward Treatment)}
+\hspace{10mm} \color{red}{$s_j>0$, (see numerator), bias toward Treatment}
 
 
 
@@ -1512,8 +1512,8 @@ Simulate (48 units, realistic means, SDs, bivariate corrs for 10 covariates) $\t
   
 
 \begin{center}
-\includegraphics[angle=0,width=2in]{figs/03-balanceReald2pvalues} 
-\includegraphics[angle=0,width=2in]{figs/03-balanceReald2pvaluesOutT}
+\includegraphics[angle=0,width=2.1in]{figs/03-balanceReald2pvalues} 
+\includegraphics[angle=0,width=2.1in]{figs/03-balanceReald2pvaluesOutT}
 \end{center}
 
 <!-- \caption{Selecting a method for the PTSD trial.  Omnibus $d^2$ $p$-values from 100 sequentially randomized experiments using seven blocking methods, each represented by one boxplot.  With no (left panel) or some severe outliers (right panel), the $k=5$ method produces among the narrowest spreads and the highest minimum $p$-values.}  -->
@@ -1689,7 +1689,9 @@ Blocked estimates 9-15% more efficient
 
 \large
 
-If assignment probability for $i$ varies by block $j$, let $p_{ij} = m_{ij} / N_j$.  Weight each obs with 
+>- Blocked DiM
+>    - DiM in blocks, weight block by size
+>- Or, if assignment probability for $i$ varies by block $j$, let $p_{ij} = m_{ij} / N_j$.  Weight each obs with \pause 
 
 $$w_{ij} = \frac{d_i}{p_{ij}} + \frac{1-d_i}{1-p_{ij}}$$
 
