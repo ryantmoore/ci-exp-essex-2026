@@ -1,0 +1,80 @@
+---
+title: "Problem Set 2"
+author: "Wannes De Meyer"
+date: "2026-07-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Exercise 3.5 (Gerber & Green, 2012)
+
+#### Using Table 2.1, imagine that your experiment allocates one village to treatment.
+
+Packages
+```{r}
+library(tidyverse)
+```
+
+Table 2.1
+```{r}
+Y0 <- c(10,15,20,20,10,15,15)
+Y1 <- c(15,15,30,15,20,15,30)
+df<-as.data.frame(cbind(Y0,Y1))
+```
+
+Simulated treatment effects
+```{r}
+n <- nrow(df)
+
+results <- data.frame(
+  treated_case = integer(n),
+  estimated_treatment_effect = numeric(n)
+)
+
+for(i in 1:7){
+  treated_mean <- mean(df$Y1[i])
+  
+  control_mean <- mean(df$Y0[-i])
+  
+  results$treated_case[i] <- i
+  results$estimated_treatment_effect[i] <- treated_mean - control_mean
+}
+
+results
+
+mean(results$estimated_treatment_effect) # Answer: 5
+```
+
+#### (c) Show that the standard deviation  of the seven estimates is identical to the standard error implied by equation (3.4).
+
+Standard deviation is 7.30 and the standard error, as calculated by equation 3.4 also results in 7.30. (See code below for calculations)
+
+```{r}
+# standard deviation of seven estimates
+sd(results$estimated_treatment_effect)
+
+# equation 3.4
+n <- 7
+
+m <- 1
+
+var_Y0 <- var(df$Y0)
+
+var_Y1 <- var(df$Y1)
+
+cov_Y0Y1 <- cov(df$Y0, df$Y1)
+
+sqrt((1/(n-1))*((m*var_Y0)/(n-m)+(((n-m)*var_Y1)/(m))+2*cov_Y0Y1))
+```
+
+
+#### (d) Referring to equation (3.4), explain why this experimental design has more sampling variability than the design in which two villages out of seven are assigned to treatment.
+
+Since $Var(Y_i(0))$ is smaller (16.70) than $Var(Y_i(1))$ (50), increasing the number of selected villages m from 1 to 2, would increase the weight of the variance of $Y_i(0)$ in the equation from $\dfrac{1}{6}$ to $\dfrac{2}{5}$ (with formula of this weight being $\dfrac{m}{N-m}$) and decrease the weight of the variance of $Y_i(1)$ from $\dfrac{6}{1}$ to $\dfrac{5}{2}$. Since the variance of $Y_i(0)$ is smaller, this would result in a decrease in the sampling variability.
+
+#### (e) Explain why, in this example, a design in which one of seven observations is assigned to treatment has more sampling variability than a design in which six villages out of seven are assigned to treatment.
+
+See answer to question d, since the sample logic applies here. 
