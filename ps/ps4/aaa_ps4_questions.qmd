@@ -1,8 +1,18 @@
 ---
 title: "Problem Set 4"
 author: "Ryan T. Moore"
-date: "(date)"
-output: pdf_document
+date: "2026-07-28"
+format:
+  pdf:
+    documentclass: article
+    classoption: [11pt]
+    geometry:
+      - margin=1in
+    number-sections: true
+    colorlinks: true
+    fig-pos: "H"
+    keep-tex: false
+    toc: false
 bibliography: ../../admin/main.bib
 ---
 

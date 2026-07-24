@@ -1,0 +1,85 @@
+---
+title: "ps3_Zeyu"
+author: "Zeyu(Zey)"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## PS3
+
+### 5(c)
+
+```{r}
+
+Y0 <- c(10, 15, 20, 20, 10, 15, 15)
+Y1 <- c(15, 15, 30, 15, 20, 15, 30)
+
+N <- length(Y0)
+m <- 1
+
+
+# Means
+mean_Y0 <- mean(Y0)
+mean_Y1 <- mean(Y1)
+
+mean_Y0
+mean_Y1
+
+
+# Variances
+var_Y0 <- var(Y0)
+var_Y1 <- var(Y1)
+
+var_Y0
+var_Y1
+
+# Covariance
+cov_Y0Y1 <- cov(Y0, Y1)
+
+cov_Y0Y1
+
+
+# Equation (3.4)
+SE <- sqrt((1 / (N - 1)) * (m * var_Y0 / (N - m) + (N - m) * var_Y1 / m + 2 * cov_Y0Y1))
+
+SE
+
+
+# Estimated ATE
+tau_hat <- numeric(N)
+
+for(i in 1:N){
+  
+  treated  <- i
+  control  <- setdiff(1:N, treated)
+
+  treatment_mean <- mean(Y1[i])
+  control_mean <- mean(Y0[-i])
+
+  tau_hat[i] <- treatment_mean - control_mean
+
+}
+
+tau_hat
+
+# Standard deviation of estimated ATE
+sd(tau_hat)
+
+
+#Are they equal?
+SE==sd(tau_hat)
+```
+
+SE=sd(tau_hat)=7.296625
+
+### 5(d)
+
+According to equation (3.4), holding the control group size constant, increasing m diminishes the second and third terms in equation. Assigning two villages rather than one to the treatment group produces less sampling variability. More precisely, assigning equal numbers to treatment and control group would be the best strategy.
+
+### 5(e)
+
+when only one village is assigned to treatment (m=1), the term involving $Var(Y(1))$ is multiplied by $(N−m)/m=6$, making a large contribution to the sampling variance.
+
+In contrast, when six villages are assigned to treatment (m=6), the treatment variance is divided by six, while the control variance is multiplied by six.
+
+Because $Var(Y(1))=50$ is much larger than $Var(Y(0))=16.667$ , having only one treated village produces a larger standard error than having only one control village.

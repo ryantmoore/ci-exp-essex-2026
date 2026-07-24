@@ -2,10 +2,18 @@
 title: |
   | Problem Set 6
 author: "Ryan T. Moore"
-date: "(date)"
-output: 
-  pdf_document:
-    number_sections: true
+date: ""
+format:
+  pdf:
+    documentclass: article
+    classoption: [11pt]
+    geometry:
+      - margin=1in
+    number-sections: true
+    colorlinks: true
+    fig-pos: "H"
+    keep-tex: false
+    toc: false
 bibliography: ../../admin/main.bib    
 ---
 
