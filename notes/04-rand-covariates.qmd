@@ -1712,6 +1712,21 @@ If blocks used to randomise, incorporate into RI.
 4. Compare observed ATE to randomisation distribution
 
 
+## Resources for Sequential Blocking
+
+\Large
+
+>- Simon Heuberger's thesis  
+\url{https://www.linkedin.com/in/simon-heuberger-7147a936}
+>- Charlotte Cavaille (Toulouse Sch of Econ)
+>- Booking.com experiment 
+>- Your contact at YouGov, etc.
+>- Orthogonal designs (time blocks)
+>    - VA opioid buyback experiment (OES)
+>    - Fire inspectors experiment (The Lab @ DC)
+>    - @moohab26
+
+
 ***
 
 \huge
