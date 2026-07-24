@@ -1,0 +1,93 @@
+---
+title: "Problem Set 3"
+subtitle: "Causal Inference and Experiments in the Social Sciences"
+author: "Thales Souza Lima"
+date: today
+format:
+  pdf:
+    documentclass: article
+    geometry:
+      - margin=1in
+    number-sections: false
+    keep-tex: false
+execute:
+  echo: true
+  warning: false
+  message: false
+editor: visual
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+# Exercise 3.5
+
+c\)
+
+```{r}
+# Potential outcomes
+y0 <- c(10, 15, 20, 20, 10, 15, 15)
+y1 <- c(15, 15, 30, 15, 20, 15, 30)
+
+# Number of villages and number assigned to treatment
+N <- length(y0)
+m <- 1
+
+# Difference-in-means estimate for each possible randomization
+ate_estimates <- sapply(seq_len(N), function(treated_village) {
+  
+  treated_mean <- y1[treated_village]
+  control_mean <- mean(y0[-treated_village])
+  
+  treated_mean - control_mean
+})
+
+ate_estimates
+mean(ate_estimates)
+
+# Standard deviation of the complete randomization distribution.
+# Because these seven assignments constitute the entire distribution,
+# the denominator is N, rather than N - 1.
+sd_randomization <- sqrt(
+  mean((ate_estimates - mean(ate_estimates))^2)
+)
+
+sd_randomization
+
+# Finite-population variance and covariance:
+# Equation (3.4) defines these quantities using denominator N.
+var_y0 <- mean((y0 - mean(y0))^2)
+var_y1 <- mean((y1 - mean(y1))^2)
+
+cov_y0_y1 <- mean(
+  (y0 - mean(y0)) * (y1 - mean(y1))
+)
+
+# Standard error from Equation (3.4)
+se_equation_3_4 <- sqrt(
+  (1 / (N - 1)) *
+    (
+      (m * var_y0) / (N - m) +
+      ((N - m) * var_y1) / m +
+      2 * cov_y0_y1
+    )
+)
+
+se_equation_3_4
+
+# Verify that the two quantities are identical
+all.equal(sd_randomization, se_equation_3_4)
+```
+
+d\) Because we are assigning only one village to treatment, the treatment mean is based on a single value. Taking from the equation, increasing N would decrease the treatment variance component.
+
+e\) Assuming that the variance of the outcomes were the same, assigning 6 villages to treatment would have the same problem as assigning just 1. You are weighting one side more. This exercise has a different implication because the variance of the control group is smaller (as usual), therefore "adding more weights" to the group with the smaller variance would yield a smaller error.
